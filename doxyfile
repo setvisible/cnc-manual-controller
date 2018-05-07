@@ -1,0 +1,28 @@
+# GENERAL
+PROJECT_NAME           = "CNC Manual Controller"
+OUTPUT_DIRECTORY       = "../../doxy-cnc-manual-controller/"
+OUTPUT_LANGUAGE        = English
+GENERATE_HTML          = YES
+GENERATE_LATEX         = NO
+HTML_OUTPUT            = html
+
+# Input
+INPUT                  = ./doxygenMain.cpp \
+                         ./LICENSE \
+                         ./README.md \
+                         ./src
+RECURSIVE              = YES
+
+# Build
+EXTRACT_ALL            = NO
+EXTRACT_PRIVATE        = YES
+EXTRACT_PACKAGE        = YES
+EXTRACT_STATIC         = YES
+EXTRACT_LOCAL_CLASSES  = YES
+EXTRACT_LOCAL_METHODS  = YES
+EXTRACT_ANON_NSPACES   = NO
+
+EXCLUDE_PATTERNS       = */test/* \
+                         */tests/* \
+                         */temp/* \
+                         */tempo/*
