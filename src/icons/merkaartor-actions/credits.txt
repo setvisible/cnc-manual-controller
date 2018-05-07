@@ -1,0 +1,5 @@
+Icons from Merkaartor
+An opensource OSM editor, written in C++ and Qt.
+http://merkaartor.be/
+
+GNU GENERAL PUBLIC LICENSE
