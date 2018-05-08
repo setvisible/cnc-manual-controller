@@ -1,6 +1,5 @@
-# HEADERS += \
-#     $$PWD/controller.h
-# 
-# SOURCES += \
-#     $$PWD/controller.cpp
+HEADERS += \
+    $$PWD/circularbuffer.h
 
+SOURCES += \
+    $$PWD/circularbuffer.cpp
