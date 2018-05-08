@@ -53,6 +53,7 @@ INCLUDEPATH += $$PWD/../include/
 include($$PWD/core/core.pri)
 include($$PWD/joystick/joystick.pri)
 include($$PWD/velleman/velleman.pri)
+include($$PWD/widgets/widgets.pri)
 
 HEADERS += \
     $$PWD/about.h \
