@@ -51,6 +51,7 @@ INCLUDEPATH += $$PWD/../include/
 # SOURCES
 #-------------------------------------------------
 include($$PWD/core/core.pri)
+include($$PWD/gui/gui.pri)
 include($$PWD/joystick/joystick.pri)
 include($$PWD/velleman/velleman.pri)
 include($$PWD/widgets/widgets.pri)
