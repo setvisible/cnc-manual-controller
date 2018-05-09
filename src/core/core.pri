@@ -1,5 +1,7 @@
 HEADERS += \
-    $$PWD/circularbuffer.h
+    $$PWD/circularbuffer.h \
+    $$PWD/process.h
 
 SOURCES += \
-    $$PWD/circularbuffer.cpp
+    $$PWD/circularbuffer.cpp \
+    $$PWD/process.cpp
