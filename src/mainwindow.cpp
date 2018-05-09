@@ -21,6 +21,7 @@
 #include "version.h"
 #include "globals.h"
 
+#include <Core/Engine>
 #include <Velleman/Velleman>
 
 #include <QtCore/QDir>
@@ -38,6 +39,7 @@
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
   , ui(new Ui::MainWindow)
+  , m_engine(new Engine(this))
   , m_dirty(false)
   , m_physicalFile(false)
 {
@@ -47,6 +49,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     this->setWindowIcon(QIcon(":/icons/logo/Iconshow-Button-Design-Pack-05-CNC-Drill.ico"));
     this->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
     this->setAcceptDrops(true);
+
+    m_engine->reset();
+
 
     createActions();
     createMenus();

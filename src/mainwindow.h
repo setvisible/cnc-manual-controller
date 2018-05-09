@@ -24,6 +24,8 @@ QT_BEGIN_NAMESPACE
 class QUndoView;
 QT_END_NAMESPACE
 
+class Engine;
+
 namespace Ui {
 class MainWindow;
 }
@@ -59,6 +61,7 @@ private Q_SLOTS:
 
 private:
     Ui::MainWindow *ui;
+    Engine *m_engine;
 
     bool m_dirty;
     bool m_physicalFile;
