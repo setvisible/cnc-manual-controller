@@ -59,6 +59,8 @@ private Q_SLOTS:
     void setDirty();
     void setClean();
 
+    void updateConnectButtonAndStatus(bool connected);
+
 private:
     Ui::MainWindow *ui;
     Engine *m_engine;

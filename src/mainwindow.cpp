@@ -22,6 +22,7 @@
 #include "globals.h"
 
 #include <Core/Engine>
+#include <GUI/ControlWidget>
 #include <Velleman/Velleman>
 
 #include <QtCore/QDir>
@@ -49,6 +50,17 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     this->setWindowIcon(QIcon(":/icons/logo/Iconshow-Button-Design-Pack-05-CNC-Drill.ico"));
     this->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
     this->setAcceptDrops(true);
+
+    // Initialize widgets
+    ui->speedSpinBox->setMaximum(1000);
+    ui->speedSpinBox->setMinimum(1);
+
+    // Connect widgets to engine
+    connect(ui->connectButton, SIGNAL(toggled(bool)), m_engine, SLOT(setConnected(bool)));
+    connect(ui->speedSpinBox, SIGNAL(valueChanged(int)), m_engine, SLOT(setSpeed(int)));
+
+    connect(m_engine, SIGNAL(connectedChanged(bool)), this, SLOT(updateConnectButtonAndStatus(bool)));
+    connect(m_engine, SIGNAL(speedChanged(int)), ui->speedSpinBox, SLOT(setValue(int)));
 
     m_engine->reset();
 
@@ -384,4 +396,12 @@ bool MainWindow::loadFile(const QString &path)
     return true;
 }
 
-
+/******************************************************************************
+ ******************************************************************************/
+void MainWindow::updateConnectButtonAndStatus(bool connected)
+{
+    const QString status = connected ? tr("connected") : tr("disconnected");
+    const QString button = connected ? tr("Disconnect") : tr("Connect");
+    ui->connectStatus->setText(status);
+    ui->connectButton->setText(button);
+}
