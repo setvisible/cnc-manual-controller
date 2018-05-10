@@ -17,11 +17,25 @@
 #include "globals.h"
 #include "mainwindow.h"
 
+#include <QtCore/QLibrary>
 #include <QtWidgets/QApplication>
 
+bool checkLibrary()
+{
+    /* Load the library in advance to verify it exists. */
+    QLibrary library("k8055d.dll");
+    if (!library.load()) {
+        printf("The program can't start because k8055d.dll is missing from your computer.\n");
+        return false; // Library not found.
+    }
+    return true;
+}
 
 int main(int argc, char *argv[])
 {
+    if (!checkLibrary()) {
+        return -1;
+
 
     QApplication app(argc, argv);
 
