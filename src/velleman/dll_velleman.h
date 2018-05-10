@@ -14,8 +14,8 @@
  * License along with this program; If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef DLL_VELLEMAN_H
-#define DLL_VELLEMAN_H
+#ifndef VELLEMAN_DLL_VELLEMAN_H
+#define VELLEMAN_DLL_VELLEMAN_H
 
 
 /**
@@ -35,7 +35,7 @@ public:
         returns -2 if one function not resolved **/
 
 
-    //////////////////////////////////////////////////
+    //
     // Assigns the functions of the VELLEMAN library K8055D.DLL
     //
     typedef int  (*t_func001)(int);
@@ -71,18 +71,18 @@ public:
     typedef void (*t_func025)(int *);
 
 
-    //General functions
+    // General functions
     t_func001 OpenDevice;
     t_func002 CloseDevice;
     t_func003 SearchDevices;
     t_func004 SetCurrentDevice;
     t_func005 DLLVersion;
 
-    //Analog to Digital converter functions
+    // Analog to Digital converter functions
     t_func006 ReadAnalogChannel;
     t_func007 ReadAllAnalog;
 
-    //Digital to Analog conversion functions
+    // Digital to Analog conversion functions
     t_func008 OutputAnalogChannel;
     t_func009 OutputAllAnalog;
     t_func010 ClearAnalogChannel;
@@ -90,23 +90,23 @@ public:
     t_func012 SetAnalogChannel;
     t_func013 SetAllAnalog;
 
-    //Digital Output functions
+    // Digital Output functions
     t_func014 WriteAllDigital;
     t_func015 ClearDigitalChannel;
     t_func016 ClearAllDigital;
     t_func017 SetDigitalChannel;
     t_func018 SetAllDigital;
 
-    //Digital Input functions
+    // Digital Input functions
     t_func019 ReadDigitalChannel;
     t_func020 ReadAllDigital;
 
-    //Counter functions
+    // Counter functions
     t_func021 ResetCounter;
     t_func022 ReadCounter;
     t_func023 SetCounterDebounceTime;
 
-    //Readback procedures and functions
+    // Readback procedures and functions
     t_func024 ReadBackDigitalOut;
     t_func025 ReadBackAnalogOut;
 
@@ -115,4 +115,4 @@ private:
 
 };
 
-#endif // DLL_VELLEMAN_H
+#endif // VELLEMAN_DLL_VELLEMAN_H

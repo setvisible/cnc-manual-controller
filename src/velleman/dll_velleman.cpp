@@ -17,6 +17,9 @@
 #include "dll_velleman.h"
 
 #include <QtCore/QLibrary>
+#ifdef QT_DEBUG
+#  include <QtCore/QDebug>
+#endif
 
 
 DLL_Velleman::DLL_Velleman()
@@ -24,13 +27,14 @@ DLL_Velleman::DLL_Velleman()
     loadLibrary();
 }
 
+/******************************************************************************
+ ******************************************************************************/
 int DLL_Velleman::loadLibrary()
 {
     QLibrary library("k8055d.dll");
 
-    if (!library.load())     // Load the dll file
-    {
-        // qDebug() << library.errorString();
+    if (!library.load()) {
+        qDebug() << library.errorString();
         return -1;  // error load DLL
     }
     else
