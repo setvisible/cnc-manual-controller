@@ -16,12 +16,15 @@
 
 #include "dll_velleman.h"
 
+#include <QtCore/QLibrary>
+
+
 DLL_Velleman::DLL_Velleman()
 {
-    init();
+    loadLibrary();
 }
 
-int DLL_Velleman::init()
+int DLL_Velleman::loadLibrary()
 {
     QLibrary library("k8055d.dll");
 

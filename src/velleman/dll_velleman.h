@@ -17,7 +17,6 @@
 #ifndef DLL_VELLEMAN_H
 #define DLL_VELLEMAN_H
 
-#include <QLibrary>
 
 /**
  * \class DLL_Velleman
@@ -34,7 +33,6 @@ public:
     /** returns 0 if all functions loaded and resolved
         returns -1 if DLL file not found and loaded
         returns -2 if one function not resolved **/
-    int init();
 
 
     //////////////////////////////////////////////////
@@ -111,6 +109,9 @@ public:
     //Readback procedures and functions
     t_func024 ReadBackDigitalOut;
     t_func025 ReadBackAnalogOut;
+
+private:
+    int loadLibrary();
 
 };
 

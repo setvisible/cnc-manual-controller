@@ -19,17 +19,9 @@
 
 #include <QtWidgets/QApplication>
 
-#include <Velleman/Velleman>
 
 int main(int argc, char *argv[])
 {
-    /* Dynamically loaded */
-    DLL_Velleman vellemanDll;
-    int ret = vellemanDll.init();
-    if(ret != 0) {
-        printf("The program can't start because k8055d.dll is missing from your computer.");
-        return ret; // Dll not found.
-    }
 
     QApplication app(argc, argv);
 

@@ -18,7 +18,6 @@
 
 #include "circularbuffer.h"
 
-#include <Velleman/Velleman>
 
 #ifdef QT_DEBUG
 #  include <QtCore/QDebug>

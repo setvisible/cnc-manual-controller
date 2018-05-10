@@ -23,7 +23,6 @@
 
 #include <Core/Engine>
 #include <GUI/ControlWidget>
-#include <Velleman/Velleman>
 
 #include <QtCore/QDir>
 #include <QtCore/QFile>
