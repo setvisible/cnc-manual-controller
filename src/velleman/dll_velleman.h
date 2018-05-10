@@ -17,23 +17,10 @@
 #ifndef VELLEMAN_DLL_VELLEMAN_H
 #define VELLEMAN_DLL_VELLEMAN_H
 
-
-/**
- * \class DLL_Velleman
- * \brief The class DLL_Velleman provides methods to use the Velleman library.
- */
 class DLL_Velleman
 {
 public:
-
-    //! Constructor
     explicit DLL_Velleman();
-
-    //! Load and resolve the function of the dll
-    /** returns 0 if all functions loaded and resolved
-        returns -1 if DLL file not found and loaded
-        returns -2 if one function not resolved **/
-
 
     //
     // Assigns the functions of the VELLEMAN library K8055D.DLL

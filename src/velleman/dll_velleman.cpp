@@ -21,7 +21,14 @@
 #  include <QtCore/QDebug>
 #endif
 
+/*!
+ * \class DLL_Velleman
+ * \brief The class DLL_Velleman provides methods to use the Velleman library.
+ */
 
+/*!
+ * \brief Constructor
+ */
 DLL_Velleman::DLL_Velleman()
 {
     loadLibrary();
@@ -29,6 +36,13 @@ DLL_Velleman::DLL_Velleman()
 
 /******************************************************************************
  ******************************************************************************/
+/*!
+ * \brief Load and resolve the function of the dll.
+ *
+ * \returns  0 if all functions loaded and resolved
+ * \returns -1 if DLL file not found and loaded
+ * \returns -2 if one function not resolved
+ */
 int DLL_Velleman::loadLibrary()
 {
     QLibrary library("k8055d.dll");
