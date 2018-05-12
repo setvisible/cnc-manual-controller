@@ -20,7 +20,6 @@
 #include <QtCore/QObject>
 #include <QtCore/QtContainerFwd> /* Forward Declarations of the Qt's Containers */
 
-class Process;
 class IMachine;
 
 class Engine : public QObject
@@ -51,7 +50,6 @@ public Q_SLOTS:
     void stop();
 
 private:
-    Process *m_process;
     IMachine *m_machine;
     bool m_isConnected;
     int m_interval;

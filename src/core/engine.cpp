@@ -16,7 +16,6 @@
 
 #include "engine.h"
 
-#include "process.h"
 #include "scheduler.h"
 
 #include <Velleman/VM110NMachine>
@@ -36,7 +35,6 @@
  * \brief Constructor
  */
 Engine::Engine(QObject *parent) : QObject(parent)
-  , m_process(new Process())
   , m_machine(new VM110NMachine(this))
   , m_isConnected(false)
   , m_interval(10)
