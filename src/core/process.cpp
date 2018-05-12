@@ -71,10 +71,9 @@ void Process::setInterval(int msec)
  ******************************************************************************/
 void Process::start()
 {
-    Q_ASSERT(m_circularBuffer);
+//    Q_ASSERT(m_circularBuffer);
 
 
-    m_continue = true;
 }
 
 /******************************************************************************

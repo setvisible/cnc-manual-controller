@@ -17,8 +17,8 @@
 #ifndef GUI_CONTROL_WIDGET_H
 #define GUI_CONTROL_WIDGET_H
 
-#include <QWidget>
-#include <QVector3D>
+#include <QtWidgets/QWidget>
+#include <QtGui/QVector3D>
 
 namespace Ui {
     class ControlWidget;

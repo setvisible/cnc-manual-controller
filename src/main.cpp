@@ -35,7 +35,7 @@ int main(int argc, char *argv[])
 {
     if (!checkLibrary()) {
         return -1;
-
+    }
 
     QApplication app(argc, argv);
 
