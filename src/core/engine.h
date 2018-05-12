@@ -21,6 +21,7 @@
 #include <QtCore/QtContainerFwd> /* Forward Declarations of the Qt's Containers */
 
 class Process;
+class IMachine;
 
 class Engine : public QObject
 {
@@ -33,16 +34,25 @@ public:
     int ticksPerSecond() const;
     bool isConnected() const;
 
+    void commandCallback() noexcept;
+
 Q_SIGNALS:
     void connectedChanged(bool status);
     void ticksPerSecondChanged(int ticksPerSecond);
+
+    void started();
+    void stopped();
 
 public Q_SLOTS:
     void setConnected(bool checked);
     void setTicksPerSecond(int ticksPerSecond);
 
+    void start();
+    void stop();
+
 private:
     Process *m_process;
+    IMachine *m_machine;
     bool m_isConnected;
     int m_interval;
 
