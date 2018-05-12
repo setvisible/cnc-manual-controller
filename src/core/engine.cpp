@@ -83,6 +83,14 @@ int Engine::ticksPerSecond() const
 
 void Engine::setTicksPerSecond(int ticksPerSecond)
 {
+    if (ticksPerSecond < 1) {
+        ticksPerSecond = 1;
+    }
+    if (ticksPerSecond > 1000) {
+        ticksPerSecond = 1000;
+    }
+    Q_ASSERT(ticksPerSecond >= 1);
+    Q_ASSERT(ticksPerSecond <= 1000);
     m_interval = 1000 / ticksPerSecond; // in msec
     emit ticksPerSecondChanged(ticksPerSecond);
 }
