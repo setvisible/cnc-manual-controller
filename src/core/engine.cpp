@@ -17,6 +17,9 @@
 #include "engine.h"
 
 #include "process.h"
+#ifdef QT_DEBUG
+#  include <QtCore/QDebug>
+#endif
 
 /*! \class Engine
  * \brief The class Engine sends instructions to the CNC machine.
@@ -28,15 +31,16 @@
 Engine::Engine(QObject *parent) : QObject(parent)
   , m_process(new Process())
   , m_isConnected(false)
-  , m_speed(100)
+  , m_interval(10)
 {
+    reset();
 }
 
 
 void Engine::reset()
 {
     setConnected(false);
-    setSpeed(100);
+    setTicksPerSecond(100);
 }
 
 /******************************************************************************
@@ -60,14 +64,14 @@ void Engine::setConnected(bool checked)
 
 /******************************************************************************
  ******************************************************************************/
-int Engine::speed() const
+int Engine::ticksPerSecond() const
 {
-    return m_speed;
+    return m_interval;
 }
 
-void Engine::setSpeed(int val)
+void Engine::setTicksPerSecond(int ticksPerSecond)
 {
-    m_speed = val;
-    emit speedChanged(m_speed);
+    m_interval = 1000 / ticksPerSecond; // in msec
+    emit ticksPerSecondChanged(ticksPerSecond);
 }
 

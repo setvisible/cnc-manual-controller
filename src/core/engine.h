@@ -30,22 +30,21 @@ public:
 
     void reset();
 
-    int speed() const;
+    int ticksPerSecond() const;
     bool isConnected() const;
 
 Q_SIGNALS:
     void connectedChanged(bool status);
-    void speedChanged(int val);
+    void ticksPerSecondChanged(int ticksPerSecond);
 
 public Q_SLOTS:
     void setConnected(bool checked);
-    void setSpeed(int val);
+    void setTicksPerSecond(int ticksPerSecond);
 
 private:
     Process *m_process;
     bool m_isConnected;
-    int m_speed;
-
+    int m_interval;
 
 };
 

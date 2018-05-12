@@ -56,10 +56,10 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 
     // Connect widgets to engine
     connect(ui->connectButton, SIGNAL(toggled(bool)), m_engine, SLOT(setConnected(bool)));
-    connect(ui->speedSpinBox, SIGNAL(valueChanged(int)), m_engine, SLOT(setSpeed(int)));
+    connect(ui->speedSpinBox, SIGNAL(valueChanged(int)), m_engine, SLOT(setTicksPerSecond(int)));
 
     connect(m_engine, SIGNAL(connectedChanged(bool)), this, SLOT(updateConnectButtonAndStatus(bool)));
-    connect(m_engine, SIGNAL(speedChanged(int)), ui->speedSpinBox, SLOT(setValue(int)));
+    connect(m_engine, SIGNAL(ticksPerSecondChanged(int)), ui->speedSpinBox, SLOT(setValue(int)));
 
     m_engine->reset();
 
