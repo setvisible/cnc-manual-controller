@@ -29,9 +29,30 @@ public:
     virtual bool openDevice() Q_DECL_OVERRIDE;
     virtual void closeDevice() Q_DECL_OVERRIDE;
 
+    virtual void receive() Q_DECL_OVERRIDE;
+
+    virtual bool isEmergencyActive() Q_DECL_OVERRIDE;
+    virtual bool hasSensorActive() Q_DECL_OVERRIDE;
+
+    virtual bool isSensorMXActive() Q_DECL_OVERRIDE;
+    virtual bool isSensorMYActive() Q_DECL_OVERRIDE;
+    virtual bool isSensorMZActive() Q_DECL_OVERRIDE;
+    virtual bool isSensorPXActive() Q_DECL_OVERRIDE;
+    virtual bool isSensorPYActive() Q_DECL_OVERRIDE;
+    virtual bool isSensorPZActive() Q_DECL_OVERRIDE;
+
+    virtual void setMotorXStep(int step) Q_DECL_OVERRIDE;
+    virtual void setMotorYStep(int step) Q_DECL_OVERRIDE;
+    virtual void setMotorZStep(int step) Q_DECL_OVERRIDE;
+
+    virtual void send() Q_DECL_OVERRIDE;
+
 private:
     DLL_Velleman *m_dll;
+    bool m_sensorChannel[5] = { false };
+    bool m_actuatorChannel[8] = { false };
 
+    inline bool direction();
 };
 
 #endif // VELLEMAN_VM110N_MACHINE_H
