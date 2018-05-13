@@ -33,6 +33,24 @@ public:
     virtual bool openDevice() = 0;
     virtual void closeDevice() = 0;
 
+    virtual void receive() = 0;
+
+    virtual bool isEmergencyActive() = 0;
+    virtual bool hasSensorActive() = 0;
+
+    virtual bool isSensorMXActive() = 0;
+    virtual bool isSensorMYActive() = 0;
+    virtual bool isSensorMZActive() = 0;
+    virtual bool isSensorPXActive() = 0;
+    virtual bool isSensorPYActive() = 0;
+    virtual bool isSensorPZActive() = 0;
+
+    virtual void setMotorXStep(int step) = 0;
+    virtual void setMotorYStep(int step) = 0;
+    virtual void setMotorZStep(int step) = 0;
+
+    virtual void send() = 0;
+
 };
 
 #endif // CORE_IMACHINE_H
