@@ -87,6 +87,14 @@ bool VM110NMachine::openDevice()
     case 2:
     case 3:
         m_dll->ClearAllDigital(); // Set all output to zero.
+
+        /* Set the minimum pulse length in milliseconds.
+         * 0 corresponds to the maximum count rate,
+         * i.e. 2000 counts per second.
+         */
+        m_dll->SetCounterDebounceTime(1, 0); // counter 1
+        m_dll->SetCounterDebounceTime(2, 0); // counter 2
+
         qDebug() << "Card " << h << " connected";
         break;
     case -1:
