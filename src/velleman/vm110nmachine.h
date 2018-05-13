@@ -49,9 +49,11 @@ public:
 
 private:
     DLL_Velleman *m_dll;
+    int m_cardAdress;
     bool m_sensorChannel[5] = { false };
     bool m_actuatorChannel[8] = { false };
 
+    inline void setCardAddress(bool sk5, bool sk6);
     inline bool direction();
 };
 

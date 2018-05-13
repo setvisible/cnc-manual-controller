@@ -47,7 +47,9 @@
 
 VM110NMachine::VM110NMachine(QObject *parent) : IMachine(parent)
   , m_dll(new DLL_Velleman())
+  , m_cardAdress(0)
 {
+    setCardAddress(true, true);
 }
 
 VM110NMachine::~VM110NMachine()
@@ -57,6 +59,20 @@ VM110NMachine::~VM110NMachine()
 
 /******************************************************************************
  ******************************************************************************/
+/*! \brief Set the card address of the VM110N (K8055N) device.
+ *
+ * The card address settings must be done before the USB cable is connected
+ * to the card.
+ *
+ * \code
+ * this->setCardAddress(true, false) // Card jumpers: SK5 is ON, SK6 is OFF
+ * \endcode
+ */
+inline void VM110NMachine::setCardAddress(bool sk5, bool sk6)
+{
+    m_cardAdress = 3 - (2 * int(sk5) + int(sk6)); //0, 1, 2 or 3
+}
+
 /******************************************************************************
  ******************************************************************************/
 /*! \brief Opens the communication link to the VM110N (K8055N) device.
@@ -64,9 +80,7 @@ VM110NMachine::~VM110NMachine()
 bool VM110NMachine::openDevice()
 {
     Q_ASSERT(m_dll);
-    int cardAddress = 0; //0, 1, 2 or 3
-
-    int h = m_dll->OpenDevice(cardAddress);
+    int h = m_dll->OpenDevice(m_cardAdress);
     switch (h) {
     case 0:
     case 1:
@@ -77,7 +91,7 @@ bool VM110NMachine::openDevice()
         break;
     case -1:
     default:
-        qDebug() << "Card " << cardAddress << " not found";
+        qDebug() << "Card " << m_cardAdress << " not found";
         return false;
         break;
     }
