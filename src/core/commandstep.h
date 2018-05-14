@@ -20,9 +20,24 @@
 #include <QtCore/QMetaType>
 #include <QtCore/QString>
 
+QT_BEGIN_NAMESPACE
+class QDebug;
+QT_END_NAMESPACE
 
 enum class CommandStep {
     None, Increment, Decrement
 };
+
+/* #ifdef QT_TESTLIB_LIB */
+char *toString(const CommandStep &step);
+/* #endif */
+
+Q_DECLARE_METATYPE(CommandStep)
+
+#ifdef QT_DEBUG
+QT_BEGIN_NAMESPACE
+QDebug operator<<(QDebug dbg, const CommandStep &step);
+QT_END_NAMESPACE
+#endif
 
 #endif // CORE_COMMAND_STEP_H

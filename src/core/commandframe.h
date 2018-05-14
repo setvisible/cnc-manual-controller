@@ -19,6 +19,13 @@
 
 #include <Core/CommandStep>
 
+#include <QtCore/QMetaType>
+#include <QtCore/QString>
+
+QT_BEGIN_NAMESPACE
+class QDebug;
+QT_END_NAMESPACE
+
 class CommandFrame
 {
 public:
@@ -29,5 +36,20 @@ public:
     CommandStep actuatorY = CommandStep::None;
     CommandStep actuatorZ = CommandStep::None;    
 };
+
+#ifdef QT_TESTLIB_LIB
+char *toString(const CommandFrame &frame);
+#else
+QString toString(const CommandFrame &frame);
+#endif
+
+Q_DECLARE_METATYPE(CommandFrame)
+
+#ifdef QT_DEBUG
+QT_BEGIN_NAMESPACE
+QDebug operator<<(QDebug dbg, const CommandFrame &frame);
+QT_END_NAMESPACE
+#endif
+
 
 #endif // CORE_COMMAND_FRAME_H

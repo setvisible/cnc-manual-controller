@@ -16,6 +16,13 @@
 
 #include "commandframe.h"
 
+#ifdef QT_DEBUG
+#  include <QtCore/QDebug>
+#endif
+#ifdef QT_TESTLIB_LIB
+#  include <QtTest/QTest>
+#endif
+
 /******************************************************************************
  ******************************************************************************/
 bool CommandFrame::operator==(const CommandFrame &other) const
@@ -30,3 +37,41 @@ bool CommandFrame::operator!=(const CommandFrame &other) const
     return ((*this) == other) ? false : true;
 }
 
+/******************************************************************************
+ ******************************************************************************/
+#ifdef QT_TESTLIB_LIB
+/// This function is used by QCOMPARE() to output verbose information in case of a test failure.
+char *toString(const CommandFrame &frame)
+{
+    QString str = QString("(%0 %1 %2)")
+            .arg(toString(frame.actuatorX))
+            .arg(toString(frame.actuatorY))
+            .arg(toString(frame.actuatorZ));
+
+    // bring QTest::toString overloads into scope:
+    using QTest::toString;
+
+    // delegate char* handling to QTest::toString(QByteArray):
+    return toString(str);
+}
+#else
+QString toString(const CommandFrame &frame)
+{
+    QString str = QString("(%0 %1 %2)")
+            .arg(toString(frame.actuatorX))
+            .arg(toString(frame.actuatorY))
+            .arg(toString(frame.actuatorZ));
+    return str;
+}
+#endif
+
+#ifdef QT_DEBUG
+/// Custom Types to a Stream
+QDebug operator<<(QDebug dbg, const CommandFrame &frame)
+{
+    dbg.noquote() << QLatin1String("CommandFrame(");
+    dbg.quote() << frame.actuatorX << frame.actuatorY << frame.actuatorZ;
+    dbg.noquote() << QLatin1String(")");
+    return dbg.maybeQuote();
+}
+#endif

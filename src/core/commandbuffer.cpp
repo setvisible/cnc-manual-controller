@@ -16,7 +16,15 @@
 
 #include "commandbuffer.h"
 
+#ifdef QT_DEBUG
+#  include <QtCore/QDebug>
+#endif
+#ifdef QT_TESTLIB_LIB
+#  include <QtTest/QTest>
+#endif
 
+/******************************************************************************
+ ******************************************************************************/
 bool CommandBuffer::operator==(const CommandBuffer &other) const
 {
     for (int i = 0; i < 4; ++i) {
@@ -32,3 +40,37 @@ bool CommandBuffer::operator!=(const CommandBuffer &other) const
     return ((*this) == other) ? false : true;
 }
 
+/******************************************************************************
+ ******************************************************************************/
+#ifdef QT_TESTLIB_LIB
+/// This function is used by QCOMPARE() to output verbose information in case of a test failure.
+char *toString(const CommandBuffer &buffer)
+{
+    QString content;
+    for (int i = 0; i < 4; ++i) {
+        content += toString(buffer.frames[i]);
+    }
+    QString str = QString("CommandBuffer[4] {%0}").arg(content);
+
+    // bring QTest::toString overloads into scope:
+    using QTest::toString;
+
+    // delegate char* handling to QTest::toString(QByteArray):
+    return toString(str);
+}
+#endif
+
+#ifdef QT_DEBUG
+/// Custom Types to a Stream
+QDebug operator<<(QDebug dbg, const CommandBuffer &buffer)
+{
+    dbg.noquote() << QLatin1String("CommandBuffer[4] {");
+    for (int i = 0; i < 4; ++i) {        
+        dbg.noquote() << "(";
+        dbg.noquote() << toString(buffer.frames[i]);
+        dbg.noquote() << ")";
+    }
+    dbg.noquote() << QLatin1String(")");
+    return dbg.maybeSpace();
+}
+#endif

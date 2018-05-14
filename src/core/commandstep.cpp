@@ -16,3 +16,49 @@
 
 #include "commandstep.h"
 
+#ifdef QT_DEBUG
+#  include <QtCore/QDebug>
+#endif
+#ifdef QT_TESTLIB_LIB
+#  include <QtTest/QTest>
+#endif
+
+
+/******************************************************************************
+ ******************************************************************************/
+/* #ifdef QT_TESTLIB_LIB
+ * -= Remark =-
+ * We commented out this QT_TESTLIB_LIB predirective because the following method
+ * toString() doesn't call any of the QtTestLib methods.
+ */
+/// This function is used by QCOMPARE() to output verbose information in case of a test failure. */
+char *toString(const CommandStep &step)
+{
+    switch (step) {
+    case CommandStep::None:      return const_cast<char*>(QLatin1String("..").data()); break;
+    case CommandStep::Increment: return const_cast<char*>(QLatin1String("++").data()); break;
+    case CommandStep::Decrement: return const_cast<char*>(QLatin1String("--").data()); break;
+    default:
+        Q_UNREACHABLE();
+        break;
+    };
+    return const_cast<char*>(QLatin1String("?").data());
+}
+/* #endif */
+
+
+#ifdef QT_DEBUG
+/// Custom Types to a Stream
+QDebug operator<<(QDebug dbg, const CommandStep &step)
+{
+    switch (step) {
+    case CommandStep::None:      dbg << QLatin1String("CommandStep::None"); break;
+    case CommandStep::Increment: dbg << QLatin1String("CommandStep::Increment"); break;
+    case CommandStep::Decrement: dbg << QLatin1String("CommandStep::Decrement"); break;
+    default:
+        Q_UNREACHABLE();
+        break;
+    }
+    return dbg.maybeSpace();
+}
+#endif

@@ -19,6 +19,13 @@
 
 #include <Core/CommandFrame>
 
+#include <QtCore/QMetaType>
+#include <QtCore/QString>
+
+QT_BEGIN_NAMESPACE
+class QDebug;
+QT_END_NAMESPACE
+
 class CommandBuffer
 {
 public:
@@ -27,5 +34,19 @@ public:
 
     CommandFrame frames[4]; // 4 * 2 ticks * 10 msec = 80 msec per action    
 };
+
+#ifdef QT_TESTLIB_LIB
+char *toString(const CommandBuffer &buffer);
+#endif
+
+Q_DECLARE_METATYPE(CommandBuffer)
+
+#ifdef QT_DEBUG
+QT_BEGIN_NAMESPACE
+QDebug operator<<(QDebug dbg, const CommandBuffer &buffer);
+QT_END_NAMESPACE
+#endif
+
+
 
 #endif // CORE_COMMAND_BUFFER_H
