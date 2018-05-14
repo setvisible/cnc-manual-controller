@@ -16,8 +16,16 @@
 
 #include "circularbuffer.h"
 
+#ifdef QT_DEBUG
+#  include <QtCore/QDebug>
+#endif
+
 /*! \class CircularBuffer
- * \brief The class CircularBuffer provides a circular buffer.
+ * \brief The class CircularBuffer provides a fixed capacity storage.
+ *
+ * When its capacity is exhausted, newly inserted elements will cause
+ * elements to be overwritten, either at the beginning or end of the
+ * buffer (depending on what insert operation is used).
  */
 
 /*!
@@ -25,6 +33,54 @@
  */
 CircularBuffer::CircularBuffer()
 {
+    this->setCapacity(32);
 }
 
+CircularBuffer::~CircularBuffer()
+{
+}
+
+/******************************************************************************
+ ******************************************************************************/
+int CircularBuffer::capacity() const
+{
+    return m_capacity;
+}
+
+void CircularBuffer::setCapacity(int capacity)
+{
+    if (capacity > 0) {
+        m_capacity = capacity;
+        m_queue.clear();
+        m_queue.reserve(capacity);
+    }
+}
+
+int CircularBuffer::size() const
+{
+    return m_queue.size();
+}
+
+bool CircularBuffer::isEmpty() const
+{
+    return m_queue.isEmpty();
+}
+
+/******************************************************************************
+ ******************************************************************************/
+void CircularBuffer::push(CommandBuffer buffer)
+{
+    if (size() >= m_capacity) {
+        m_queue.dequeue();
+    }
+    m_queue.enqueue(buffer);
+}
+
+CommandBuffer CircularBuffer::pop()
+{
+    if (size() > 0) {
+        return m_queue.dequeue();
+    }
+    return CommandBuffer();
+}
 

@@ -17,11 +17,28 @@
 #ifndef CORE_CIRCULAR_BUFFER_H
 #define CORE_CIRCULAR_BUFFER_H
 
+#include <Core/CommandBuffer>
+
+#include <QQueue>
+
 class CircularBuffer
 {
 public:
     explicit CircularBuffer();
+    ~CircularBuffer();
 
+    int capacity() const;
+    void setCapacity(int capacity);
+
+    bool isEmpty() const;
+    int size() const;
+
+    void push(CommandBuffer buffer);
+    CommandBuffer pop();
+
+private:
+    int m_capacity;
+    QQueue<CommandBuffer> m_queue;
 };
 
 #endif // CORE_CIRCULAR_BUFFER_H
