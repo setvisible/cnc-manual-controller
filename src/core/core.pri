@@ -1,4 +1,5 @@
 HEADERS += \
+    $$PWD/commandframe.h \
     $$PWD/commandstep.h \
     $$PWD/circularbuffer.h \
     $$PWD/engine.h \
@@ -6,6 +7,7 @@ HEADERS += \
     $$PWD/scheduler.h
 
 SOURCES += \
+    $$PWD/commandframe.cpp \
     $$PWD/commandstep.cpp \
     $$PWD/circularbuffer.cpp \
     $$PWD/engine.cpp \
