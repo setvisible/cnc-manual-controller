@@ -23,6 +23,10 @@ ControlWidget::ControlWidget(QWidget *parent) : QWidget(parent)
   , ui(new Ui::ControlWidget)
 {
     ui->setupUi(this);
+
+    ui->axis0Control->setTitle(tr("Axis X"));
+    ui->axis1Control->setTitle(tr("Axis Y"));
+    ui->axis2Control->setTitle(tr("Axis Z"));
 }
 
 ControlWidget::~ControlWidget()

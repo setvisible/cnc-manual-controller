@@ -49,12 +49,12 @@ void AxisControlWidget::changeEvent(QEvent *e)
 
 /******************************************************************************
  ******************************************************************************/
-QString AxisControlWidget::axisTitle() const
+QString AxisControlWidget::title() const
 {
     return ui->labelTitle->text();
 }
 
-void AxisControlWidget::setAxisTitle(QString title)
+void AxisControlWidget::setTitle(QString title)
 {
     ui->labelTitle->setText(title);
 }

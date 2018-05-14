@@ -37,8 +37,8 @@ public:
     explicit AxisControlWidget(QWidget* parent = Q_NULLPTR);
     ~AxisControlWidget();
 
-    QString axisTitle() const;
-    void setAxisTitle(QString title);
+    QString title() const;
+    void setTitle(QString title);
 
     CommandMode commandMode() const;
     void setCommandMode(CommandMode mode);
