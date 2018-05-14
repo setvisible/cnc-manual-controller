@@ -20,6 +20,8 @@
 #include <QtCore/QObject>
 #include <QtCore/QtContainerFwd> /* Forward Declarations of the Qt's Containers */
 
+#include <Core/CommandStep>
+
 /*! \class IMachine
  *  \brief The class IMachine is an interface to the CNC machine.
  *
@@ -45,9 +47,9 @@ public:
     virtual bool isSensorPYActive() = 0;
     virtual bool isSensorPZActive() = 0;
 
-    virtual void setMotorXStep(int step) = 0;
-    virtual void setMotorYStep(int step) = 0;
-    virtual void setMotorZStep(int step) = 0;
+    virtual void setMotorXStep(CommandStep step) = 0;
+    virtual void setMotorYStep(CommandStep step) = 0;
+    virtual void setMotorZStep(CommandStep step) = 0;
 
     virtual void send() = 0;
 

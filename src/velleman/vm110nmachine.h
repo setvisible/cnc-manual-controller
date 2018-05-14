@@ -20,6 +20,7 @@
 #include <Core/IMachine>
 
 class DLL_Velleman;
+
 class VM110NMachine : public IMachine
 {
 public:
@@ -41,9 +42,9 @@ public:
     virtual bool isSensorPYActive() Q_DECL_OVERRIDE;
     virtual bool isSensorPZActive() Q_DECL_OVERRIDE;
 
-    virtual void setMotorXStep(int step) Q_DECL_OVERRIDE;
-    virtual void setMotorYStep(int step) Q_DECL_OVERRIDE;
-    virtual void setMotorZStep(int step) Q_DECL_OVERRIDE;
+    virtual void setMotorXStep(CommandStep step) Q_DECL_OVERRIDE;
+    virtual void setMotorYStep(CommandStep step) Q_DECL_OVERRIDE;
+    virtual void setMotorZStep(CommandStep step) Q_DECL_OVERRIDE;
 
     virtual void send() Q_DECL_OVERRIDE;
 

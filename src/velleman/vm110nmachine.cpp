@@ -180,42 +180,63 @@ inline bool VM110NMachine::direction()
 
 /******************************************************************************
  ******************************************************************************/
-void VM110NMachine::setMotorXStep(int step)
+void VM110NMachine::setMotorXStep(CommandStep step)
 {
-    if (step > 0) {
+    switch (step) {
+    case CommandStep::Increment:
         m_actuatorChannel[C_MOTOR_X_DIR_CHANNEL] = false;
         m_actuatorChannel[C_MOTOR_X_STEP_CHANNEL] = true;
-    } else if (step < 0) {
+        break;
+    case CommandStep::Decrement:
         m_actuatorChannel[C_MOTOR_X_DIR_CHANNEL] = true;
         m_actuatorChannel[C_MOTOR_X_STEP_CHANNEL] = true;
-    } else {
+        break;
+    case CommandStep::None:
         m_actuatorChannel[C_MOTOR_X_STEP_CHANNEL] = false;
+        break;
+    default:
+        Q_UNREACHABLE();
+        break;
     }
 }
 
-void VM110NMachine::setMotorYStep(int step)
+void VM110NMachine::setMotorYStep(CommandStep step)
 {
-    if (step > 0) {
+    switch (step) {
+    case CommandStep::Increment:
         m_actuatorChannel[C_MOTOR_Y_DIR_CHANNEL] = false;
         m_actuatorChannel[C_MOTOR_Y_STEP_CHANNEL] = true;
-    } else if (step < 0) {
+        break;
+    case CommandStep::Decrement:
         m_actuatorChannel[C_MOTOR_Y_DIR_CHANNEL] = true;
         m_actuatorChannel[C_MOTOR_Y_STEP_CHANNEL] = true;
-    } else {
+        break;
+    case CommandStep::None:
         m_actuatorChannel[C_MOTOR_Y_STEP_CHANNEL] = false;
+        break;
+    default:
+        Q_UNREACHABLE();
+        break;
     }
 }
 
-void VM110NMachine::setMotorZStep(int step)
+void VM110NMachine::setMotorZStep(CommandStep step)
 {
-    if (step > 0) {
+    switch (step) {
+    case CommandStep::Increment:
         m_actuatorChannel[C_MOTOR_Z_DIR_CHANNEL] = false;
         m_actuatorChannel[C_MOTOR_Z_STEP_CHANNEL] = true;
-    } else if (step < 0) {
+        break;
+    case CommandStep::Decrement:
         m_actuatorChannel[C_MOTOR_Z_DIR_CHANNEL] = true;
         m_actuatorChannel[C_MOTOR_Z_STEP_CHANNEL] = true;
-    } else {
+        break;
+    case CommandStep::None:
         m_actuatorChannel[C_MOTOR_Z_STEP_CHANNEL] = false;
+        break;
+    default:
+        Q_UNREACHABLE();
+        break;
     }
 }
 
