@@ -64,16 +64,13 @@ bool Engine::isConnected() const
 void Engine::setConnected(bool checked)
 {
     if (m_isConnected) {
-        // disconnect first
         stop();
         m_machine->closeDevice();
     }
     m_isConnected = checked;
     if (m_isConnected) {
-        // try to connect
-        bool isOpen = m_machine->openDevice();
+        m_machine->openDevice();
         start();
-
     }
     emit connectedChanged(m_isConnected);
 }
@@ -152,7 +149,16 @@ void Engine::stop()
 
 /******************************************************************************
  ******************************************************************************/
-/*! \brief Command Thread
+/*!
+ * \remark This method is run in the command thread,
+ * so we have to **guarantee** that:
+ *
+ * \li this function will return in time < buffer length
+ * \li will finish processing the buffer
+ * \li the output buffer will contain __valid command data__ afterwards
+ * \li there will be no error / exception / ...
+ *
+ * Otherwise, we will cause a glitch.
  */
 void Engine::commandCallback() noexcept
 {

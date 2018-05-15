@@ -19,8 +19,10 @@
 
 #include <QtCore/QObject>
 
+QT_BEGIN_NAMESPACE
 class QElapsedTimer;
 class QTime;
+QT_END_NAMESPACE
 
 class Engine;
 

@@ -28,6 +28,7 @@ class ControlWidget;
 
 class Engine : public QObject
 {
+    friend class Scheduler;
     Q_OBJECT
 public:
     explicit Engine(QObject *parent = Q_NULLPTR);
@@ -37,7 +38,6 @@ public:
     int ticksPerSecond() const;
     bool isConnected() const;
 
-    void commandCallback() noexcept;
     void setGuiInput(ControlWidget *controlWidget);
 
 
@@ -57,6 +57,9 @@ public Q_SLOTS:
 
     void infoString(QString message);
     void errorString(QString err);
+
+protected:
+    void commandCallback() noexcept;
 
 public Q_SLOTS:
     void readInput();
