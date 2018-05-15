@@ -1,0 +1,12 @@
+# ==============================================================================
+# Below we forbid everything and only allow what we know, that's much easier
+# than blocking about 500 different test files and bug report outputs.
+# ==============================================================================
+/.*
+/*
+!/bin
+!/include
+!/lib
+!/.gitignore
+!/k8055n_vm110n_rev1206.zip
+!/velleman.pri
