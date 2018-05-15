@@ -49,7 +49,7 @@ void AxisControlWidget::changeEvent(QEvent *e)
 
 /******************************************************************************
  ******************************************************************************/
-int AxisControlWidget::value() const
+int AxisControlWidget::commandValue() const
 {
     if (ui->buttonPlus->isDown()) {
         return 1;
@@ -157,12 +157,12 @@ void AxisControlWidget::filterCounter()
 
 /******************************************************************************
  ******************************************************************************/
-void AxisControlWidget::setCheckableButtons(bool value)
+void AxisControlWidget::setCheckableButtons(bool checkable)
 {
-    ui->buttonPlus->setCheckable(value);
-    ui->buttonStop->setCheckable(value);
-    ui->buttonHome->setCheckable(value);
-    ui->buttonMinus->setCheckable(value);
+    ui->buttonPlus->setCheckable(checkable);
+    ui->buttonStop->setCheckable(checkable);
+    ui->buttonHome->setCheckable(checkable);
+    ui->buttonMinus->setCheckable(checkable);
 
 }
 void AxisControlWidget::untoggleButtons()

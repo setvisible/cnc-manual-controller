@@ -37,7 +37,7 @@ public:
     explicit AxisControlWidget(QWidget* parent = Q_NULLPTR);
     ~AxisControlWidget();
 
-    int value() const;
+    int commandValue() const;
 
     QString title() const;
     void setTitle(QString title);
@@ -65,7 +65,7 @@ private:
     Ui::AxisControlWidget *ui;
     CommandMode m_commandMode;
 
-    void setCheckableButtons(bool value);
+    void setCheckableButtons(bool checkable);
     void untoggleButtons();
 
 };

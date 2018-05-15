@@ -48,15 +48,15 @@ void ControlWidget::changeEvent(QEvent *e)
 
 int ControlWidget::valueAxisX() const
 {
-    return ui->axis0Control->value();
+    return ui->axis0Control->commandValue();
 }
 
 int ControlWidget::valueAxisY() const
 {
-    return ui->axis1Control->value();
+    return ui->axis1Control->commandValue();
 }
 
 int ControlWidget::valueAxisZ() const
 {
-    return ui->axis2Control->value();
+    return ui->axis2Control->commandValue();
 }
