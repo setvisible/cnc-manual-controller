@@ -18,6 +18,7 @@
 
 #include "scheduler.h"
 
+#include <GUI/ControlWidget>
 #include <Velleman/VM110NMachine>
 
 #include <QtCore/QThread>
@@ -152,5 +153,12 @@ void Engine::stop()
  */
 void Engine::commandCallback() noexcept
 {
+}
+
+/******************************************************************************
+ ******************************************************************************/
+void Engine::setGuiInput(ControlWidget *controlWidget)
+{
+    m_controlWidget = controlWidget;
 }
 

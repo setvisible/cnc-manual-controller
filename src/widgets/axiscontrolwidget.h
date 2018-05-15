@@ -17,7 +17,7 @@
 #ifndef WIDGETS_AXIS_CONTROL_WIDGET_H
 #define WIDGETS_AXIS_CONTROL_WIDGET_H
 
-#include <QWidget>
+#include <QtWidgets/QWidget>
 
 namespace Ui {
 class AxisControlWidget;
@@ -36,6 +36,8 @@ class AxisControlWidget : public QWidget
 public:
     explicit AxisControlWidget(QWidget* parent = Q_NULLPTR);
     ~AxisControlWidget();
+
+    int value() const;
 
     QString title() const;
     void setTitle(QString title);

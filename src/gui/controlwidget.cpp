@@ -45,3 +45,18 @@ void ControlWidget::changeEvent(QEvent *e)
         break;
     }
 }
+
+int ControlWidget::valueAxisX() const
+{
+    return ui->axis0Control->value();
+}
+
+int ControlWidget::valueAxisY() const
+{
+    return ui->axis1Control->value();
+}
+
+int ControlWidget::valueAxisZ() const
+{
+    return ui->axis2Control->value();
+}

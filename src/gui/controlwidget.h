@@ -21,7 +21,7 @@
 #include <QtGui/QVector3D>
 
 namespace Ui {
-    class ControlWidget;
+class ControlWidget;
 }
 
 class ControlWidget : public QWidget
@@ -30,6 +30,10 @@ class ControlWidget : public QWidget
 public:
     explicit ControlWidget(QWidget* parent = Q_NULLPTR);
     ~ControlWidget();
+
+    int valueAxisX() const;
+    int valueAxisY() const;
+    int valueAxisZ() const;
 
 public Q_SLOTS:
 

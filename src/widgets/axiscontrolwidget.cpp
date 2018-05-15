@@ -49,6 +49,19 @@ void AxisControlWidget::changeEvent(QEvent *e)
 
 /******************************************************************************
  ******************************************************************************/
+int AxisControlWidget::value() const
+{
+    if (ui->buttonPlus->isDown()) {
+        return 1;
+    } else if (ui->buttonMinus->isDown()) {
+        return -1;
+    } else {
+        return 0;
+    }
+}
+
+/******************************************************************************
+ ******************************************************************************/
 QString AxisControlWidget::title() const
 {
     return ui->labelTitle->text();

@@ -21,6 +21,7 @@
 #include <QtCore/QtContainerFwd> /* Forward Declarations of the Qt's Containers */
 
 class IMachine;
+class ControlWidget;
 
 class Engine : public QObject
 {
@@ -34,6 +35,8 @@ public:
     bool isConnected() const;
 
     void commandCallback() noexcept;
+    void setGuiInput(ControlWidget *controlWidget);
+
 
 Q_SIGNALS:
     void connectedChanged(bool status);
@@ -53,6 +56,8 @@ private:
     IMachine *m_machine;
     bool m_isConnected;
     int m_interval;
+
+    ControlWidget *m_controlWidget;
 
 };
 
