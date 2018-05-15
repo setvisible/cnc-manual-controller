@@ -20,6 +20,7 @@
 AxisControlWidget::AxisControlWidget(QWidget *parent) : QWidget(parent)
   , ui(new Ui::AxisControlWidget)
   , m_commandMode(CommandMode::PULSE)
+  , m_previousCommandValue(0)
 {
     ui->setupUi(this);
 
@@ -27,6 +28,7 @@ AxisControlWidget::AxisControlWidget(QWidget *parent) : QWidget(parent)
     connect(ui->buttonMinus, SIGNAL(released()), this, SLOT(decrement()));
     connect(ui->buttonHome, SIGNAL(released()), this, SLOT(home()));
     connect(ui->buttonStop, SIGNAL(released()), this, SLOT(stop()));
+    connect(ui->checkBoxContinuous, SIGNAL(toggled(bool)), this, SLOT(toggleContinuous(bool)));
     connect(ui->lineEditCounter, SIGNAL(editingFinished()), this, SLOT(filterCounter()));
 }
 
@@ -49,14 +51,30 @@ void AxisControlWidget::changeEvent(QEvent *e)
 
 /******************************************************************************
  ******************************************************************************/
+/*!
+ * \brief Return an integer storing the number and the direction of the step.
+ * \return the steps number and direction
+ *    0 -> Stop
+ *   17 -> Increment by 17 steps
+ *  -68 -> Decrement by 68 steps
+ */
 int AxisControlWidget::commandValue() const
 {
-    if (ui->buttonPlus->isDown()) {
-        return 1;
-    } else if (ui->buttonMinus->isDown()) {
-        return -1;
-    } else {
-        return 0;
+    if (ui->checkBoxContinuous->isChecked()) {  /* Continuous incrementing. */
+        return m_previousCommandValue;
+
+    } else {                                    /* Manual incrementing. */
+        /* Remark:
+         * We increment and decrement one step by one
+         * so the returned value is 1 or -1.
+         */
+        if (ui->buttonPlus->isDown()) {
+            return 1;
+        } else if (ui->buttonMinus->isDown()) {
+            return -1;
+        } else {
+            return 0;
+        }
     }
 }
 
@@ -109,6 +127,7 @@ void AxisControlWidget::setCommandMode(CommandMode commandMode)
  ******************************************************************************/
 void AxisControlWidget::increment()
 {
+    m_previousCommandValue = 1;
     if (m_commandMode == CommandMode::TOGGLE) {
         untoggleButtons();
         ui->buttonPlus->setChecked( true );
@@ -117,6 +136,7 @@ void AxisControlWidget::increment()
 }
 void AxisControlWidget::decrement()
 {
+    m_previousCommandValue = -1;
     if (m_commandMode == CommandMode::TOGGLE) {
         untoggleButtons();
         ui->buttonMinus->setChecked( true );
@@ -126,6 +146,7 @@ void AxisControlWidget::decrement()
 
 void AxisControlWidget::home()
 {
+    m_previousCommandValue = 0;
     if (m_commandMode == CommandMode::TOGGLE) {
         untoggleButtons();
         ui->buttonHome->setChecked(true);
@@ -135,11 +156,17 @@ void AxisControlWidget::home()
 
 void AxisControlWidget::stop()
 {
+    m_previousCommandValue = 0;
     if (m_commandMode == CommandMode::TOGGLE) {
         untoggleButtons();
         ui->buttonStop->setChecked(true);
     }
     emit stopped();
+}
+
+void AxisControlWidget::toggleContinuous(bool)
+{
+    m_previousCommandValue = 0;
 }
 
 void AxisControlWidget::filterCounter()

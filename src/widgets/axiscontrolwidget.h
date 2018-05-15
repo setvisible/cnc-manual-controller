@@ -59,11 +59,13 @@ private Q_SLOTS:
     void home();
     void increment();
     void decrement();
+    void toggleContinuous(bool);
     void filterCounter();
 
 private:
     Ui::AxisControlWidget *ui;
     CommandMode m_commandMode;
+    int m_previousCommandValue;
 
     void setCheckableButtons(bool checkable);
     void untoggleButtons();
