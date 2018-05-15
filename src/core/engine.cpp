@@ -16,6 +16,7 @@
 
 #include "engine.h"
 
+#include "circularbuffer.h"
 #include "scheduler.h"
 
 #include <GUI/ControlWidget>
@@ -36,9 +37,11 @@
  * \brief Constructor
  */
 Engine::Engine(QObject *parent) : QObject(parent)
+  , m_circularBuffer(new CircularBuffer())
   , m_machine(new VM110NMachine(this))
   , m_isConnected(false)
   , m_interval(10)
+  , m_controlWidget(Q_NULLPTR)
 {
     reset();
 }
@@ -153,6 +156,73 @@ void Engine::stop()
  */
 void Engine::commandCallback() noexcept
 {
+    /* Read the VM110N input and write the value in Circular Buffer. */
+
+    static CommandBuffer m_commandBuffer;
+    static int m_frameIndex = -1;
+    static bool m_descendingEdge = false;
+
+    m_descendingEdge = !m_descendingEdge;
+
+    m_machine->receive();
+
+    /* if a limit is reached or Emergency Stop pushed, stops the program */
+    if (m_machine->isEmergencyActive() ) {
+        errorString(tr("Emergency Stop"));
+        stop();
+        return;
+    }
+
+    if ( m_machine->hasSensorActive()) {
+        // recovery mode?
+        errorString(tr("Reach limit. Stop"));
+        stop();
+        return;
+    }
+
+    if (m_descendingEdge) {
+        m_frameIndex++;
+        if (m_frameIndex > 3) {
+            m_frameIndex = 0;
+
+            if (m_circularBuffer->isEmpty()) {
+
+                readInput();
+                // not good: thread can block
+
+                /* Pop the Circular Buffer */
+                m_commandBuffer = m_circularBuffer->pop();
+
+            } else {
+                /* if empty, just do nothing */
+                m_commandBuffer = CommandBuffer();
+            }
+        }
+        CommandFrame frame = m_commandBuffer.frames[m_frameIndex];
+        m_machine->setMotorXStep(frame.actuatorX);
+        m_machine->setMotorYStep(frame.actuatorY);
+        m_machine->setMotorZStep(frame.actuatorZ);
+    } else {
+        m_machine->setMotorXStep(CommandStep::None);
+        m_machine->setMotorYStep(CommandStep::None);
+        m_machine->setMotorZStep(CommandStep::None);
+    }
+
+    /* Send the command to the machine. */
+    m_machine->send();
+}
+
+/******************************************************************************
+ ******************************************************************************/
+
+void Engine::infoString(QString message)
+{
+    qDebug() << Q_FUNC_INFO << message;
+}
+
+void Engine::errorString(QString err)
+{
+    qWarning() << Q_FUNC_INFO << err;
 }
 
 /******************************************************************************
@@ -162,3 +232,33 @@ void Engine::setGuiInput(ControlWidget *controlWidget)
     m_controlWidget = controlWidget;
 }
 
+static inline CommandStep toStep(const int value)
+{
+    if (value > 0) {
+        return CommandStep::Increment;
+    } else if (value < 0) {
+        return CommandStep::Decrement;
+    } else {
+        return CommandStep::None;
+    }
+}
+
+void Engine::readInput()
+{
+    CommandStep commandX = CommandStep::None;
+    CommandStep commandY = CommandStep::None;
+    CommandStep commandZ = CommandStep::None;
+    if (m_controlWidget) {
+        commandX = toStep(m_controlWidget->valueAxisX());
+        commandY = toStep(m_controlWidget->valueAxisY());
+        commandZ = toStep(m_controlWidget->valueAxisZ());
+    }
+    CommandBuffer buffer;
+    for (int i = 0; i < 4; ++i) {
+        buffer.frames[i].actuatorX = commandX;
+        buffer.frames[i].actuatorY = commandY;
+        buffer.frames[i].actuatorZ = commandZ;
+    }
+    m_circularBuffer->push(buffer);
+    qDebug() << Q_FUNC_INFO << buffer;
+}

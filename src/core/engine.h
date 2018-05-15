@@ -20,7 +20,10 @@
 #include <QtCore/QObject>
 #include <QtCore/QtContainerFwd> /* Forward Declarations of the Qt's Containers */
 
+
+class CircularBuffer;
 class IMachine;
+class Scheduler;
 class ControlWidget;
 
 class Engine : public QObject
@@ -52,7 +55,14 @@ public Q_SLOTS:
     void start();
     void stop();
 
+    void infoString(QString message);
+    void errorString(QString err);
+
+public Q_SLOTS:
+    void readInput();
+
 private:
+    CircularBuffer *m_circularBuffer;
     IMachine *m_machine;
     bool m_isConnected;
     int m_interval;
