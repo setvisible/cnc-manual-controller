@@ -12,6 +12,34 @@ This programme was initially designed for controlling a CNC machine driven by a 
 The Velleman VM110N library for Windows can be found in subdirectory `./src/3rd/velleman/bin/k8055d.dll`. The libk8055 library is used for Linux and MacOSX and can be found in subdirectory `./src/3rd/libk8055/`. 
 
 
+## 3rd-Party Libraries
+
+### Simple DirectMedia Layer
+
+	SDL v1.2.15
+
+The Simple DirectMedia Layer (SDL for short) is a cross-platfrom library
+designed to make it easy to write multi-media software, such as games and
+emulators.
+
+The Simple DirectMedia Layer library source code is available from:
+[http://www.libsdl.org/](http://www.libsdl.org/ "SDL")
+
+This library is distributed under the terms of the GNU LGPL license:
+[http://www.gnu.org/copyleft/lesser.html](http://www.gnu.org/copyleft/lesser.html "GPL")
+
+
+### K8055D Library
+
+	K8055D v5.0.0.0
+
+Dynamic Link Library for the K8055N / VM110N interface board.
+
+Public domain license
+
+[http://www.velleman.be/](http://www.velleman.be/ "Velleman")
+
+
 ## Installation
 
 1. Download the most recent package
