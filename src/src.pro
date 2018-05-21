@@ -105,6 +105,11 @@ DESTDIR = $${OUT_PWD}/../../CNCMachineController
 #-------------------------------------------------
 # INSTALL
 #-------------------------------------------------
+# Specifies a list of files to be included in the dist target.
+# This feature is supported by UnixMake specs only.
+DISTFILES += \
+    $$PWD/../LICENSE
+
 # instructions for 'make install'
 unix{
     target.path = /usr/lib
@@ -112,10 +117,10 @@ unix{
 }
 
 win32{
-    # Copy the Velleman DLLs to the target directory
+    # Copy DLLs to the target directory
     dlls.files += $$shell_quote($$shell_path("$$PWD/../3rd/sdl/SDL-1.2.15/README-SDL.txt"))
     dlls.files += $$shell_quote($$shell_path("$$PWD/../3rd/sdl/SDL-1.2.15/bin/x86/SDL.dll"))
     dlls.files += $$shell_quote($$shell_path("$$PWD/../3rd/velleman/bin/K8055D.dll"))
-    # dlls.path  =  $$shell_quote($$shell_path($${OUT_PWD}/$${DESTDIR}))
+    dlls.path  =  $$shell_quote($$shell_path($${OUT_PWD}/$${DESTDIR}))
     INSTALLS += dlls
 }
