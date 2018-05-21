@@ -113,6 +113,8 @@ unix{
 
 win32{
     # Copy the Velleman DLLs to the target directory
+    dlls.files += $$shell_quote($$shell_path("$$PWD/../3rd/sdl/SDL-1.2.15/README-SDL.txt"))
+    dlls.files += $$shell_quote($$shell_path("$$PWD/../3rd/sdl/SDL-1.2.15/bin/x86/SDL.dll"))
     dlls.files += $$shell_quote($$shell_path("$$PWD/../3rd/velleman/bin/K8055D.dll"))
     # dlls.path  =  $$shell_quote($$shell_path($${OUT_PWD}/$${DESTDIR}))
     INSTALLS += dlls

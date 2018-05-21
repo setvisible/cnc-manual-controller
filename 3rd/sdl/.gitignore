@@ -6,4 +6,6 @@
 /*
 !/SDL-1.2.15
 !/.gitignore
+!/README.md
+!/sdl.pri
 !/SDL-devel-1.2.15-VC.zip
