@@ -1,0 +1,9 @@
+# ==============================================================================
+# Below we forbid everything and only allow what we know, that's much easier
+# than blocking about 500 different test files and bug report outputs.
+# ==============================================================================
+/.*
+/*
+!/SDL-1.2.15
+!/.gitignore
+!/SDL-devel-1.2.15-VC.zip
