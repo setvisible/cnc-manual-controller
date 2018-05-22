@@ -5,6 +5,7 @@ HEADERS += \
     $$PWD/circularbuffer.h \
     $$PWD/engine.h \
     $$PWD/imachine.h \
+    $$PWD/preferences.h \
     $$PWD/scheduler.h
 
 SOURCES += \
@@ -13,4 +14,5 @@ SOURCES += \
     $$PWD/commandstep.cpp \
     $$PWD/circularbuffer.cpp \
     $$PWD/engine.cpp \
+    $$PWD/preferences.cpp \
     $$PWD/scheduler.cpp
