@@ -22,6 +22,7 @@
 #include "globals.h"
 
 #include <Core/Engine>
+#include <Dialogs/PreferencesDialog>
 #include <GUI/ControlWidget>
 
 #include <QtCore/QDir>
@@ -160,9 +161,8 @@ void MainWindow::showFileProperties()
  ******************************************************************************/
 void MainWindow::showPreferences()
 {
-    //  SettingsDialog dialog(this);
-    //  dialog.exec();
-    //  m_mystery->readSettings();
+    PreferencesDialog dialog(m_engine, this);
+    dialog.exec();
 }
 
 /******************************************************************************
