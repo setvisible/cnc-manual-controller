@@ -25,6 +25,7 @@ class CircularBuffer;
 class IMachine;
 class Scheduler;
 class ControlWidget;
+class Preferences;
 
 class Engine : public QObject
 {
@@ -40,6 +41,7 @@ public:
 
     void setGuiInput(ControlWidget *controlWidget);
 
+    Preferences *preferences() const;
 
 Q_SIGNALS:
     void connectedChanged(bool status);
@@ -71,7 +73,7 @@ private:
     int m_interval;
 
     ControlWidget *m_controlWidget;
-
+    Preferences *m_preferences;
 };
 
 

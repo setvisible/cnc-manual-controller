@@ -19,6 +19,7 @@
 #include "circularbuffer.h"
 #include "scheduler.h"
 
+#include <Core/Preferences>
 #include <GUI/ControlWidget>
 #include <Velleman/VM110NMachine>
 
@@ -42,6 +43,7 @@ Engine::Engine(QObject *parent) : QObject(parent)
   , m_isConnected(false)
   , m_interval(10)
   , m_controlWidget(Q_NULLPTR)
+  , m_preferences(new Preferences(this))
 {
     reset();
 }
@@ -52,6 +54,13 @@ void Engine::reset()
     stop();
     setConnected(false);
     setTicksPerSecond(100);
+}
+
+/******************************************************************************
+ ******************************************************************************/
+Preferences* Engine::preferences() const
+{
+    return m_preferences;
 }
 
 /******************************************************************************
