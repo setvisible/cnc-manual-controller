@@ -72,7 +72,7 @@ Scheduler::~Scheduler()
 
 /******************************************************************************
  ******************************************************************************/
-/*! \brief Set the interval between two tick in milliseconds
+/*! \brief Set the interval between two ticks in milliseconds
  *
  * Remark: According to Qt documentation:
  * Windows 2000 has 15 millisecond accuracy;

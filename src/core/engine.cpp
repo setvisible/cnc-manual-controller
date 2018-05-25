@@ -46,8 +46,8 @@ Engine::Engine(QObject *parent) : QObject(parent)
   , m_preferences(new Preferences(this))
 {
     reset();
-}
 
+}
 
 void Engine::reset()
 {
