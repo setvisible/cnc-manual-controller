@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>JoystickSettingWidget</class>
+ <widget class="QWidget" name="JoystickSettingWidget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>322</width>
+    <height>246</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QVBoxLayout" name="mainLayout" stretch="0,0,0,1,0">
+   <item>
+    <widget class="QLabel" name="avail_label">
+     <property name="text">
+      <string>Joysticks available</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout" stretch="1,0">
+     <item>
+      <widget class="QComboBox" name="avail_box"/>
+     </item>
+     <item>
+      <widget class="QCheckBox" name="sample_box">
+       <property name="text">
+        <string>Continuous sampling</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QLabel" name="num_axbtnlabel">
+     <property name="text">
+      <string>Axes</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout2" stretch="0">
+     <item>
+      <layout class="QHBoxLayout" name="axes_Layout"/>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout3">
+     <item>
+      <layout class="QHBoxLayout" name="buttons_Layout"/>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
