@@ -1,10 +1,10 @@
 HEADERS += \
     $$PWD/qjoystick.h \
-    $$PWD/joysticksettingwidget.h
+    $$PWD/sandboxwidget.h
 
 SOURCES += \
     $$PWD/qjoystick.cpp \
-    $$PWD/joysticksettingwidget.cpp
+    $$PWD/sandboxwidget.cpp
 
 FORMS += \
-    $$PWD/joysticksettingwidget.ui
+    $$PWD/sandboxwidget.ui
