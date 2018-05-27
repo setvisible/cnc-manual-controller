@@ -33,33 +33,19 @@
  */
 SandBoxWidget::SandBoxWidget(QWidget *parent) : QWidget(parent)
   , ui(new Ui::SandBoxWidget)
-  , m_joystick(new QJoystick(this))
+  , m_joystickDevice(new QJoystick(this))
   , m_timer(new QTimer())
 {
     ui->setupUi(this);
 
+    connect(m_timer, SIGNAL(timeout()), this, SLOT(updateData()));
+    connect(ui->deviceComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(updateSelection(int)));
+    connect(ui->samplingGroupBox, SIGNAL(toggled(bool)), this, SLOT(setSamplingActive(bool)));
+
     m_timer->setInterval(50);
 
-    m_progressBars.clear();
-    m_labels.clear();
-    m_checkboxes.clear();
-
-    /* Initialize the joysticks. */
-    init_joysticks();
-
-    /*
-     * If there's a joystick present, initialize axes and buttons displays
-     * and start the update timer.
-     */
-    if (joysavail > 0) {
-        this->updateSelection(0);
-        connect(m_timer, SIGNAL(timeout()), this, SLOT(updateData()));
-        connect(ui->avail_box, SIGNAL(currentIndexChanged(int)), this, SLOT(updateSelection(int)));
-        connect(ui->sample_box, SIGNAL(toggled(bool)), this, SLOT(toggleSampling(bool)));
-        if (ui->sample_box->isChecked()) {
-            m_timer->start();
-        }
-    }
+    reset();
+    setSamplingActive(false);
 }
 
 SandBoxWidget::~SandBoxWidget()
@@ -81,67 +67,75 @@ void SandBoxWidget::setJoystickId(int id)
 
 /******************************************************************************
  ******************************************************************************/
-// Initialize Joystick information
-// Get # of joysticks available
-// Populate # of axes and buttons
-void SandBoxWidget::init_joysticks()
+/*!
+ * \brief Reset the joysticks information
+ *
+ * The method gets the number of joysticks available
+ * and populate axes and buttons.
+ */
+void SandBoxWidget::reset()
 {
-    ui->avail_box->clear();
+    m_progressBars.clear();
+    m_labels.clear();
+    m_checkboxes.clear();
 
-    // Find number of joysticks present
-    joysavail=m_joystick->availableJoysticks();
+    ui->deviceComboBox->clear();
 
-    // Create joysticks list
-    for(int i=0;i<joysavail;i++){
-        JoystickData *tempjoy;
-        tempjoy = new JoystickData;
-        joystick.append(tempjoy);
+    /* Find number of joysticks present */
+    m_joystickCount = m_joystickDevice->availableJoystickCount();
+
+    /* Create joysticks list */
+    for (int i = 0; i < m_joystickCount; ++i){
+        JoystickData *joystick = new JoystickData;
+        m_joysticks.append(joystick );
     }
 
-    // Populate labels depending on the number of joysticks found
-    switch (joysavail) {
-    case 0:
-        ui->avail_label->setText(QString("No joysticks found"));
-        ui->avail_box->setDisabled(true);
-        break;
-    default:
-        if(joysavail==1)
-            ui->avail_label->setText(QString("%1 joystick found").arg(joysavail));
-        else
-            ui->avail_label->setText(QString("%1 joysticks found").arg(joysavail));
+    /* Populate labels depending on the number of joysticks found */
+    if (m_joystickCount == 0) {
+        ui->availableDevicesLabel->setText(QString("No joysticks found"));
+        ui->deviceComboBox->setDisabled(true);
 
-        // Populate data structure for all joysticks
-        for(int i=0; i<joysavail;i++) {
-            m_joystick->setJoystick(i);
+    } else {
+        QString text = QString("%0 joystick%1 found:")
+                .arg(m_joystickCount)
+                .arg(m_joystickCount == 1 ? QLatin1String("") : QLatin1String("s"));
+        ui->availableDevicesLabel->setText(text);
 
-            // Populate ComboBox
-            ui->avail_box->addItem(m_joystick->joystickName(i));
+        /* Populate data structure for all joysticks */
+        for (int i = 0; i < m_joystickCount; ++i) {
+            m_joystickDevice->setJoystickIndex(i);
 
-            // Axes
-            joystick.at(i)->number_axes = m_joystick->joystickNumAxes(i);
+            /* Populate ComboBox */
+            ui->deviceComboBox->addItem(m_joystickDevice->joystickName(i));
 
-            for (int j = 0; j < joystick.at(i)->number_axes; ++j) {
-                joystick.at(i)->axis.append(0);
+            /* Axes */
+            m_joysticks.at(i)->number_axes = m_joystickDevice->joystickNumAxes(i);
+            for (int j = 0; j < m_joysticks.at(i)->number_axes; ++j) {
+                m_joysticks.at(i)->axis.append(0);
             }
 
-            // Buttons
-            joystick.at(i)->number_btn  = m_joystick->joystickNumButtons(i);
-
-            for (int j = 0; j < joystick.at(i)->number_btn; ++j) {
-                joystick.at(i)->button.append(false);
+            /* Buttons */
+            m_joysticks.at(i)->number_btn  = m_joystickDevice->joystickNumButtons(i);
+            for (int j = 0; j < m_joysticks.at(i)->number_btn; ++j) {
+                m_joysticks.at(i)->button.append(false);
             }
         }
 
-        current_joystick = 0;
-        ui->num_axbtnlabel->setText(QString("%1 axes - %2 buttons")
-                                    .arg(joystick.at(0)->number_axes)
-                                    .arg(joystick.at(0)->number_btn));
+        m_currentJoystickIndex = 0;
+        ui->infoLabel->setText(QString("%1 axes - %2 buttons")
+                               .arg(m_joysticks.at(0)->number_axes)
+                               .arg(m_joysticks.at(0)->number_btn));
 
-        m_joystick->setJoystick(ui->avail_box->currentIndex());
-
-        break;
+        m_joystickDevice->setJoystickIndex(ui->deviceComboBox->currentIndex());
     }
 
+    /*
+     * If there's a joystick present, initialize axes and buttons displays
+     * and start the update timer.
+     */
+    if (m_joystickCount > 0) {
+        updateSelection(0);
+    }
 }
 
 /******************************************************************************
@@ -151,7 +145,7 @@ void SandBoxWidget::init_joysticks()
 void SandBoxWidget::updateSelection(int index)
 {
     QLayoutItem *child = Q_NULLPTR;
-    while ((child = ui->axes_Layout->takeAt(0)) != Q_NULLPTR) {
+    while ((child = ui->axesLayout->takeAt(0)) != Q_NULLPTR) {
         delete child->widget();
         delete child;
     }
@@ -164,8 +158,8 @@ void SandBoxWidget::updateSelection(int index)
     m_progressBars.clear();
     m_labels.clear();
 
-    while (!ui->buttons_Layout->isEmpty()) {
-        ui->buttons_Layout->removeWidget(ui->buttons_Layout->takeAt(0)->widget());
+    while (!ui->buttonsLayout->isEmpty()) {
+        ui->buttonsLayout->removeWidget(ui->buttonsLayout->takeAt(0)->widget());
     }
 
     for (int j = 0; j < m_checkboxes.size(); ++j) {
@@ -173,14 +167,14 @@ void SandBoxWidget::updateSelection(int index)
     }
     m_checkboxes.clear();
 
-    current_joystick = index;
+    m_currentJoystickIndex = index;
 
-    ui->num_axbtnlabel->setText(QString("%1 axes - %2 buttons")
-                                .arg(joystick.at(index)->number_axes)
-                                .arg(joystick.at(index)->number_btn));
-    m_joystick->setJoystick(ui->avail_box->currentIndex());
+    ui->infoLabel->setText(QString("%1 axes - %2 buttons")
+                           .arg(m_joysticks.at(index)->number_axes)
+                           .arg(m_joysticks.at(index)->number_btn));
+    m_joystickDevice->setJoystickIndex(ui->deviceComboBox->currentIndex());
 
-    for (int i = 0; i < joystick.at(index)->number_axes; ++i){
+    for (int i = 0; i < m_joysticks.at(index)->number_axes; ++i){
 
         QLabel *label = new QLabel(QString("0"), this);
         QFont font;
@@ -204,66 +198,62 @@ void SandBoxWidget::updateSelection(int index)
         layout->addWidget(m_progressBars.at(i));
         layout->addWidget(m_labels.at(i));
 
-        ui->axes_Layout->addLayout(layout);
+        ui->axesLayout->addLayout(layout);
     }
 
-    for (int j = 0; j < joystick.at(current_joystick)->number_btn; ++j) {
+    for (int j = 0; j < m_joysticks.at(m_currentJoystickIndex)->number_btn; ++j) {
         QCheckBox *checkbox = new QCheckBox(this);
         checkbox->setChecked(false);
         m_checkboxes.append(checkbox);
-        ui->buttons_Layout->addWidget(m_checkboxes[j]);
+        ui->buttonsLayout->addWidget(m_checkboxes[j]);
     }
 }
 
 void SandBoxWidget::updateData()
 {
-    m_joystick->getData();
+    m_joystickDevice->storeCurrentState();
     pollJoystick();
-    for (int i = 0; i < joystick.at(current_joystick)->number_axes; ++i) {
-        m_progressBars[i]->setValue(joystick.at(current_joystick)->axis[i]);
-        m_labels[i]->setText(QString("%1").arg(joystick.at(current_joystick)->axis[i]));
+    for (int i = 0; i < m_joysticks.at(m_currentJoystickIndex)->number_axes; ++i) {
+        m_progressBars[i]->setValue(m_joysticks.at(m_currentJoystickIndex)->axis[i]);
+        m_labels[i]->setText(QString("%1").arg(m_joysticks.at(m_currentJoystickIndex)->axis[i]));
     }
 
-    for (int i = 0; i < joystick.at(current_joystick)->number_btn; ++i) {
-        m_checkboxes[i]->setChecked(joystick.at(current_joystick)->button[i]);
+    for (int i = 0; i < m_joysticks.at(m_currentJoystickIndex)->number_btn; ++i) {
+        m_checkboxes[i]->setChecked(m_joysticks.at(m_currentJoystickIndex)->button[i]);
     }
     //this->update();
 }
 
 /******************************************************************************
  ******************************************************************************/
-// Extracts data from QJoystick class
+/*!
+ * \brief Extracts data from QJoystick class
+ */
 void SandBoxWidget::pollJoystick()
 {
-    m_joystick->getData();
-    for (int i = 0; i < joystick.at(current_joystick)->number_axes; ++i){
-        joystick.at(current_joystick)->axis[i] = m_joystick->axis[i];
+    m_joystickDevice->storeCurrentState();
+    for (int i = 0; i < m_joysticks.at(m_currentJoystickIndex)->number_axes; ++i){
+        m_joysticks.at(m_currentJoystickIndex)->axis[i] = m_joystickDevice->axis().at(i);
     }
 
-    for (int i = 0; i < joystick.at(current_joystick)->number_btn; ++i){
-        joystick.at(current_joystick)->button[i] = m_joystick->buttons[i];
+    for (int i = 0; i < m_joysticks.at(m_currentJoystickIndex)->number_btn; ++i){
+        m_joysticks.at(m_currentJoystickIndex)->button[i] = m_joystickDevice->buttons().at(i);
     }
 }
 
 /******************************************************************************
  ******************************************************************************/
-// toggleSampling is offered as a function a parent widget/class can call
-void SandBoxWidget::toggleSampling(bool down)
+/*! \brief Set the Sampling active if \a active is \a true.
+ */
+void SandBoxWidget::setSamplingActive(bool active)
 {
-    if (down) {
+    if (active) {
         m_timer->start();
     } else {
         m_timer->stop();
     }
+    ui->infoLabel->setEnabled(active);
+    ui->axesLayout->setEnabled(active);
+    ui->buttonsLayout->setEnabled(active);
 }
 
-void SandBoxWidget::exttoggle(bool on)
-{
-    if (on) {
-        // m_timer->start();
-        ui->sample_box->setChecked(true);
-    } else{
-        // m_timer->stop();
-        ui->sample_box->setChecked(false);
-    }
-}

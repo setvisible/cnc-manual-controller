@@ -41,7 +41,22 @@ public:
     int joystickId() const;
     void setJoystickId(int id);
 
-    /// Structure created for each joystick encountered.
+public Q_SLOTS:
+    void setSamplingActive(bool active);
+
+private Q_SLOTS:
+    void updateSelection(int index);
+    void updateData();
+
+private:
+    Ui::SandBoxWidget *ui;
+    QJoystick *m_joystickDevice;
+    QTimer *m_timer;
+    QList<QProgressBar*> m_progressBars;
+    QList<QLabel*> m_labels;
+    QList<QCheckBox*> m_checkboxes;
+
+    /** Structure created for each joystick encountered. */
     struct JoystickData{
         int number_axes;
         int number_btn;
@@ -49,33 +64,17 @@ public:
         QList<bool> button;
     };
 
-    /// Available joystick count. Only set at initialization.
-    int joysavail;
+    /** Available joystick count. Only set at initialization. */
+    int m_joystickCount;
 
-    /// List of joystick data
-    QList<JoystickData*> joystick;
+    /** List of joystick data */
+    QList<JoystickData*> m_joysticks;
 
-    /// current_joystick is dynamic, set by the user selection.
-    int current_joystick;
+    /** current_joystick is dynamic, set by the user selection. */
+    int m_currentJoystickIndex;
 
+    void reset();
     void pollJoystick();
-    void exttoggle(bool);
-
-private Q_SLOTS:
-    void updateSelection(int index);
-    void updateData();
-    void toggleSampling(bool down);
-
-private:
-    Ui::SandBoxWidget *ui;
-    QJoystick *m_joystick;
-    QTimer *m_timer;
-    QList<QProgressBar*> m_progressBars;
-    QList<QLabel*> m_labels;
-    QList<QCheckBox*> m_checkboxes;
-
-    void init_joysticks();
-
 };
 
 #endif // JOYSTICK_SAND_BOX_WIDGET_H
