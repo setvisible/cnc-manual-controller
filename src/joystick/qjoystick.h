@@ -31,23 +31,24 @@ public:
     explicit QJoystick(QObject *parent = Q_NULLPTR);
     ~QJoystick();
 
-    int availableJoysticks() const;
-    int currentJoystick() const;
+    int availableJoystickCount() const;
 
-    QString joystickName(int id) const;
-    int joystickNumAxes(int id) const;
-    int joystickNumButtons(int id) const;
+    int joystickIndex() const;
+    void setJoystickIndex(int deviceIndex);
 
-    QList<int> axis;
-    QList<bool> buttons;
+    QString joystickName(int deviceIndex) const;
+    int joystickNumAxes(int deviceIndex) const;
+    int joystickNumButtons(int deviceIndex) const;
 
-    void getData();
+    void storeCurrentState();
 
-public Q_SLOTS:
-    void setJoystick(int jsNumber);
+    QList<int> axis() const;
+    QList<bool> buttons() const;
 
 private:
     SDL_Joystick *m_joystick;
+    QList<int> m_axis;
+    QList<bool> m_buttons;
 
 };
 

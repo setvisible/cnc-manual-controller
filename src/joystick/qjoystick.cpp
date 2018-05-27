@@ -32,7 +32,7 @@
  * \brief Constructor
  */
 QJoystick::QJoystick(QObject *parent) : QObject(parent)
-    , m_joystick(Q_NULLPTR)
+  , m_joystick(Q_NULLPTR)
 {
     /*
      * Sure, we're only using the Joystick,
@@ -43,8 +43,8 @@ QJoystick::QJoystick(QObject *parent) : QObject(parent)
 
 QJoystick::~QJoystick()
 {
-    axis.clear();
-    buttons.clear();
+    m_axis.clear();
+    m_buttons.clear();
     if (m_joystick) {
         SDL_JoystickClose(m_joystick);
     }
@@ -54,61 +54,96 @@ QJoystick::~QJoystick()
 
 /******************************************************************************
  ******************************************************************************/
-int QJoystick::availableJoysticks() const
+/*!
+ * \brief Count the number of joysticks attached to the system.
+ */
+int QJoystick::availableJoystickCount() const
 {
     return SDL_NumJoysticks();
 }
 
-int QJoystick::currentJoystick() const
+/******************************************************************************
+ ******************************************************************************/
+/*!
+ * \brief Get the device index of the current joystick.
+ */
+int QJoystick::joystickIndex() const
 {
     Q_ASSERT(m_joystick);
     return SDL_JoystickIndex(m_joystick);
 }
 
-QString QJoystick::joystickName(int js) const
+void QJoystick::setJoystickIndex(int deviceIndex)
 {
-    Q_ASSERT(js < availableJoysticks());
-    Q_ASSERT(js >= 0);
-    return QString(SDL_JoystickName(js));
-}
-
-int QJoystick::joystickNumAxes(int js) const
-{
-    Q_ASSERT(js < availableJoysticks());
-    Q_ASSERT(js >= 0);
-    return (SDL_JoystickNumAxes(m_joystick));
-}
-
-int QJoystick::joystickNumButtons(int js) const
-{
-    Q_ASSERT(js < availableJoysticks());
-    Q_ASSERT(js >= 0);
-    return (SDL_JoystickNumButtons(m_joystick));
-}
-
-void QJoystick::getData()
-{
-    axis.clear();
-    buttons.clear();
-    SDL_Event event;
-    SDL_PollEvent(&event);
-    for (int i = 0; i < SDL_JoystickNumAxes(m_joystick); ++i) {
-        axis.append(SDL_JoystickGetAxis(m_joystick,i));
-    }
-    for (int i = 0; i < SDL_JoystickNumButtons(m_joystick); ++i) {
-        buttons.append(SDL_JoystickGetButton(m_joystick,i));
-    }
-}
-
-/******************************************************************************
- ******************************************************************************/
-void QJoystick::setJoystick(int js)
-{
-    Q_ASSERT(js < availableJoysticks());
-    Q_ASSERT(js >= 0);
+    Q_ASSERT(deviceIndex < availableJoystickCount());
+    Q_ASSERT(deviceIndex >= 0);
     // /* Otherwise, segfault */
     // if (m_joystick && SDL_WasInit(SDL_INIT_JOYSTICK)) {
     //     SDL_JoystickClose(m_joystick);
     // }
-    m_joystick = SDL_JoystickOpen(js);
+    m_joystick = SDL_JoystickOpen(deviceIndex);
+}
+
+/******************************************************************************
+ ******************************************************************************/
+/*!
+ * \brief Get the implementation dependent name of a joystick.
+ */
+QString QJoystick::joystickName(int deviceIndex) const
+{
+    Q_ASSERT(deviceIndex < availableJoystickCount());
+    Q_ASSERT(deviceIndex >= 0);
+    return QString(SDL_JoystickName(deviceIndex));
+}
+
+int QJoystick::joystickNumAxes(int deviceIndex) const
+{
+    Q_ASSERT(deviceIndex < availableJoystickCount());
+    Q_ASSERT(deviceIndex >= 0);
+    return (SDL_JoystickNumAxes(m_joystick));
+}
+
+int QJoystick::joystickNumButtons(int deviceIndex) const
+{
+    Q_ASSERT(deviceIndex < availableJoystickCount());
+    Q_ASSERT(deviceIndex >= 0);
+    return (SDL_JoystickNumButtons(m_joystick));
+}
+
+/******************************************************************************
+ ******************************************************************************/
+/*!
+ * \brief Read and store the current state
+ * of the axis controls and buttons on the current joystick.
+ *
+ * Use methods axis() and button() to get the stored state.
+ */
+void QJoystick::storeCurrentState()
+{
+    m_axis.clear();
+    m_buttons.clear();
+    SDL_Event event;
+    SDL_PollEvent(&event);
+    for (int i = 0; i < SDL_JoystickNumAxes(m_joystick); ++i) {
+        m_axis.append(SDL_JoystickGetAxis(m_joystick,i));
+    }
+    for (int i = 0; i < SDL_JoystickNumButtons(m_joystick); ++i) {
+        m_buttons.append(SDL_JoystickGetButton(m_joystick,i));
+    }
+}
+
+/*!
+ * \brief Get the current state of axis controls on the current joystick.
+ */
+QList<int> QJoystick::axis() const
+{
+    return m_axis;
+}
+
+/*!
+ * \brief Get the current state of buttons on the current joystick.
+ */
+QList<bool> QJoystick::buttons() const
+{
+    return m_buttons;
 }
