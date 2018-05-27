@@ -14,8 +14,8 @@
  * License along with this program; If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef JOYSTICK_SETTING_WIDGET_H
-#define JOYSTICK_SETTING_WIDGET_H
+#ifndef JOYSTICK_SAND_BOX_WIDGET_H
+#define JOYSTICK_SAND_BOX_WIDGET_H
 
 #include <QtWidgets/QWidget>
 
@@ -28,15 +28,15 @@ QT_END_INCLUDE_NAMESPACE
 class QJoystick;
 
 namespace Ui {
-class JoystickSettingWidget;
+class SandBoxWidget;
 }
 
-class JoystickSettingWidget : public QWidget
+class SandBoxWidget : public QWidget
 {
     Q_OBJECT
 public:
-    explicit JoystickSettingWidget(QWidget *parent = Q_NULLPTR);
-    ~JoystickSettingWidget();
+    explicit SandBoxWidget(QWidget *parent = Q_NULLPTR);
+    ~SandBoxWidget();
 
     int joystickId() const;
     void setJoystickId(int id);
@@ -67,7 +67,7 @@ private Q_SLOTS:
     void toggleSampling(bool down);
 
 private:
-    Ui::JoystickSettingWidget *ui;
+    Ui::SandBoxWidget *ui;
     QJoystick *m_joystick;
     QTimer *m_timer;
     QList<QProgressBar*> m_progressBars;
@@ -78,4 +78,4 @@ private:
 
 };
 
-#endif // JOYSTICK_SETTING_WIDGET_H
+#endif // JOYSTICK_SAND_BOX_WIDGET_H

@@ -19,7 +19,7 @@
 
 #include <Core/Engine>
 #include <Core/Preferences>
-#include <Joystick/JoystickSettingWidget>
+#include <Joystick/SandBoxWidget>
 
 PreferencesDialog::PreferencesDialog(Engine *engine, QWidget *parent) : QDialog(parent)
   , ui(new Ui::PreferencesDialog)
@@ -31,7 +31,7 @@ PreferencesDialog::PreferencesDialog(Engine *engine, QWidget *parent) : QDialog(
     m_preferences = engine->preferences();
 
     Q_ASSERT(m_preferences);
-    ui->joystickSettingWidget->setJoystickId(m_preferences->currentJoystickId());
+    ui->sandBoxWidget->setJoystickId(m_preferences->currentJoystickId());
 }
 
 PreferencesDialog::~PreferencesDialog()
@@ -42,7 +42,7 @@ PreferencesDialog::~PreferencesDialog()
 void PreferencesDialog::accept()
 {
     Q_ASSERT(m_preferences);
-    m_preferences->setCurrentJoystickId(ui->joystickSettingWidget->joystickId());
+    m_preferences->setCurrentJoystickId(ui->sandBoxWidget->joystickId());
 
     QDialog::accept();
 }

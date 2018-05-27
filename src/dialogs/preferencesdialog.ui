@@ -33,7 +33,7 @@
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_2">
        <item>
-        <widget class="JoystickSettingWidget" name="joystickSettingWidget" native="true"/>
+        <widget class="SandBoxWidget" name="sandBoxWidget" native="true"/>
        </item>
       </layout>
      </widget>
@@ -53,9 +53,9 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>JoystickSettingWidget</class>
+   <class>SandBoxWidget</class>
    <extends>QWidget</extends>
-   <header>Joystick/JoystickSettingWidget</header>
+   <header>Joystick/SandBoxWidget</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

@@ -14,8 +14,8 @@
  * License along with this program; If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "joysticksettingwidget.h"
-#include "ui_joysticksettingwidget.h"
+#include "sandboxwidget.h"
+#include "ui_sandboxwidget.h"
 
 #include "qjoystick.h"
 
@@ -28,11 +28,11 @@
 #include <QComboBox>
 #include <QList>
 
-/*! \class JoystickSettingWidget
- * \brief The class JoystickSettingWidget provides a GUI to setup the Joystick.
+/*! \class SandBoxWidget
+ * \brief The class SandBoxWidget provides a GUI to setup the Joystick.
  */
-JoystickSettingWidget::JoystickSettingWidget(QWidget *parent) : QWidget(parent)
-  , ui(new Ui::JoystickSettingWidget)
+SandBoxWidget::SandBoxWidget(QWidget *parent) : QWidget(parent)
+  , ui(new Ui::SandBoxWidget)
   , m_joystick(new QJoystick(this))
   , m_timer(new QTimer())
 {
@@ -62,19 +62,19 @@ JoystickSettingWidget::JoystickSettingWidget(QWidget *parent) : QWidget(parent)
     }
 }
 
-JoystickSettingWidget::~JoystickSettingWidget()
+SandBoxWidget::~SandBoxWidget()
 {
     delete ui;
 }
 
 /******************************************************************************
  ******************************************************************************/
-int JoystickSettingWidget::joystickId() const
+int SandBoxWidget::joystickId() const
 {
     return 0;
 }
 
-void JoystickSettingWidget::setJoystickId(int id)
+void SandBoxWidget::setJoystickId(int id)
 {
     Q_UNUSED(id);
 }
@@ -84,7 +84,7 @@ void JoystickSettingWidget::setJoystickId(int id)
 // Initialize Joystick information
 // Get # of joysticks available
 // Populate # of axes and buttons
-void JoystickSettingWidget::init_joysticks()
+void SandBoxWidget::init_joysticks()
 {
     ui->avail_box->clear();
 
@@ -148,7 +148,7 @@ void JoystickSettingWidget::init_joysticks()
  ******************************************************************************/
 /*! \brief Lay out progress bars for axes and buttons.
  */
-void JoystickSettingWidget::updateSelection(int index)
+void SandBoxWidget::updateSelection(int index)
 {
     QLayoutItem *child = Q_NULLPTR;
     while ((child = ui->axes_Layout->takeAt(0)) != Q_NULLPTR) {
@@ -215,7 +215,7 @@ void JoystickSettingWidget::updateSelection(int index)
     }
 }
 
-void JoystickSettingWidget::updateData()
+void SandBoxWidget::updateData()
 {
     m_joystick->getData();
     pollJoystick();
@@ -233,7 +233,7 @@ void JoystickSettingWidget::updateData()
 /******************************************************************************
  ******************************************************************************/
 // Extracts data from QJoystick class
-void JoystickSettingWidget::pollJoystick()
+void SandBoxWidget::pollJoystick()
 {
     m_joystick->getData();
     for (int i = 0; i < joystick.at(current_joystick)->number_axes; ++i){
@@ -248,7 +248,7 @@ void JoystickSettingWidget::pollJoystick()
 /******************************************************************************
  ******************************************************************************/
 // toggleSampling is offered as a function a parent widget/class can call
-void JoystickSettingWidget::toggleSampling(bool down)
+void SandBoxWidget::toggleSampling(bool down)
 {
     if (down) {
         m_timer->start();
@@ -257,7 +257,7 @@ void JoystickSettingWidget::toggleSampling(bool down)
     }
 }
 
-void JoystickSettingWidget::exttoggle(bool on)
+void SandBoxWidget::exttoggle(bool on)
 {
     if (on) {
         // m_timer->start();

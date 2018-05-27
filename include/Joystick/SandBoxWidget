@@ -1,1 +1,1 @@
-#include "../../src/joystick/joysticksettingwidget.h"
+#include "../../src/joystick/sandboxwidget.h"
