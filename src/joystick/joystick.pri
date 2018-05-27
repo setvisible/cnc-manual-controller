@@ -1,9 +1,9 @@
 HEADERS += \
-    $$PWD/qjoystick.h \
+    $$PWD/joystickdevice.h \
     $$PWD/sandboxwidget.h
 
 SOURCES += \
-    $$PWD/qjoystick.cpp \
+    $$PWD/joystickdevice.cpp \
     $$PWD/sandboxwidget.cpp
 
 FORMS += \
