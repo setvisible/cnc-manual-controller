@@ -19,14 +19,13 @@
 
 #include <Joystick/JoystickDevice>
 
-#include <QWidget>
-#include <QProgressBar>
-#include <QVBoxLayout>
-#include <QTimer>
-#include <QLabel>
-#include <QCheckBox>
-#include <QComboBox>
-#include <QList>
+#include <QtCore/QList>
+#include <QtCore/QTimer>
+#include <QtWidgets/QCheckBox>
+#include <QtWidgets/QComboBox>
+#include <QtWidgets/QLabel>
+#include <QtWidgets/QProgressBar>
+#include <QtWidgets/QVBoxLayout>
 
 /*! \class SandBoxWidget
  * \brief The class SandBoxWidget provides a GUI to setup the Joystick.
