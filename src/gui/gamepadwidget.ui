@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>GamepadWidget</class>
+ <widget class="QWidget" name="GamepadWidget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>182</width>
+    <height>96</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>182</width>
+    <height>96</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout" stretch="0,1">
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="0,1,0">
+     <item>
+      <widget class="QLabel" name="infoTitleLabel">
+       <property name="text">
+        <string>Active:</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="infoDetailsLabel">
+       <property name="text">
+        <string>Yes</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="deviceNameLabel">
+       <property name="text">
+        <string>&lt;Device&gt;</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <property name="leftMargin">
+      <number>9</number>
+     </property>
+     <property name="topMargin">
+      <number>9</number>
+     </property>
+     <property name="rightMargin">
+      <number>9</number>
+     </property>
+     <property name="bottomMargin">
+      <number>9</number>
+     </property>
+     <item>
+      <widget class="GamepadAxisWidget" name="gamepadXWidget" native="true"/>
+     </item>
+     <item>
+      <widget class="GamepadAxisWidget" name="gamepadYWidget" native="true"/>
+     </item>
+     <item>
+      <widget class="GamepadAxisWidget" name="gamepadZWidget" native="true"/>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>GamepadAxisWidget</class>
+   <extends>QWidget</extends>
+   <header location="global">Widgets/GamepadAxisWidget</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>
