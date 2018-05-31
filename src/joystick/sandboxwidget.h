@@ -25,7 +25,7 @@ class QCheckBox;
 class QLabel;
 QT_END_INCLUDE_NAMESPACE
 
-class QJoystick;
+class JoystickDevice;
 
 namespace Ui {
 class SandBoxWidget;
@@ -50,7 +50,7 @@ private Q_SLOTS:
 
 private:
     Ui::SandBoxWidget *ui;
-    QJoystick *m_joystickDevice;
+    JoystickDevice *m_joystickDevice;
     QTimer *m_timer;
     QList<QProgressBar*> m_progressBars;
     QList<QLabel*> m_labels;

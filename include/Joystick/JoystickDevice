@@ -1,1 +1,1 @@
-#include "../../src/joystick/joystick.h"
+#include "../../src/joystick/joystickdevice.h"

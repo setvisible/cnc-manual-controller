@@ -14,7 +14,7 @@
  * License along with this program; If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "qjoystick.h"
+#include "joystickdevice.h"
 
 #include "SDL/SDL.h"
 
@@ -24,14 +24,14 @@
 
 #define POLL_INTERVAL 40
 
-/*! \class QJoystick
- * \brief The class QJoystick is just a wrapper to the SDL_Joystick class.
+/*! \class JoystickDevice
+ * \brief The class JoystickDevice is just a wrapper to the SDL_Joystick class.
  */
 
 /*!
  * \brief Constructor
  */
-QJoystick::QJoystick(QObject *parent) : QObject(parent)
+JoystickDevice::JoystickDevice(QObject *parent) : QObject(parent)
   , m_joystick(Q_NULLPTR)
 {
     /*
@@ -41,7 +41,7 @@ QJoystick::QJoystick(QObject *parent) : QObject(parent)
     SDL_Init(SDL_INIT_VIDEO | SDL_INIT_JOYSTICK);
 }
 
-QJoystick::~QJoystick()
+JoystickDevice::~JoystickDevice()
 {
     m_axis.clear();
     m_buttons.clear();
@@ -57,7 +57,7 @@ QJoystick::~QJoystick()
 /*!
  * \brief Count the number of joysticks attached to the system.
  */
-int QJoystick::availableJoystickCount() const
+int JoystickDevice::availableJoystickCount() const
 {
     return SDL_NumJoysticks();
 }
@@ -67,13 +67,13 @@ int QJoystick::availableJoystickCount() const
 /*!
  * \brief Get the device index of the current joystick.
  */
-int QJoystick::joystickIndex() const
+int JoystickDevice::joystickIndex() const
 {
     Q_ASSERT(m_joystick);
     return SDL_JoystickIndex(m_joystick);
 }
 
-void QJoystick::setJoystickIndex(int deviceIndex)
+void JoystickDevice::setJoystickIndex(int deviceIndex)
 {
     Q_ASSERT(deviceIndex < availableJoystickCount());
     Q_ASSERT(deviceIndex >= 0);
@@ -89,21 +89,21 @@ void QJoystick::setJoystickIndex(int deviceIndex)
 /*!
  * \brief Get the implementation dependent name of a joystick.
  */
-QString QJoystick::joystickName(int deviceIndex) const
+QString JoystickDevice::joystickName(int deviceIndex) const
 {
     Q_ASSERT(deviceIndex < availableJoystickCount());
     Q_ASSERT(deviceIndex >= 0);
     return QString(SDL_JoystickName(deviceIndex));
 }
 
-int QJoystick::joystickNumAxes(int deviceIndex) const
+int JoystickDevice::joystickNumAxes(int deviceIndex) const
 {
     Q_ASSERT(deviceIndex < availableJoystickCount());
     Q_ASSERT(deviceIndex >= 0);
     return (SDL_JoystickNumAxes(m_joystick));
 }
 
-int QJoystick::joystickNumButtons(int deviceIndex) const
+int JoystickDevice::joystickNumButtons(int deviceIndex) const
 {
     Q_ASSERT(deviceIndex < availableJoystickCount());
     Q_ASSERT(deviceIndex >= 0);
@@ -118,7 +118,7 @@ int QJoystick::joystickNumButtons(int deviceIndex) const
  *
  * Use methods axis() and button() to get the stored state.
  */
-void QJoystick::storeCurrentState()
+void JoystickDevice::storeCurrentState()
 {
     m_axis.clear();
     m_buttons.clear();
@@ -135,7 +135,7 @@ void QJoystick::storeCurrentState()
 /*!
  * \brief Get the current state of axis controls on the current joystick.
  */
-QList<int> QJoystick::axis() const
+QList<int> JoystickDevice::axis() const
 {
     return m_axis;
 }
@@ -143,7 +143,7 @@ QList<int> QJoystick::axis() const
 /*!
  * \brief Get the current state of buttons on the current joystick.
  */
-QList<bool> QJoystick::buttons() const
+QList<bool> JoystickDevice::buttons() const
 {
     return m_buttons;
 }

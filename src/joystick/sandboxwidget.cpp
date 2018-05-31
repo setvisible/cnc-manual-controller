@@ -17,7 +17,7 @@
 #include "sandboxwidget.h"
 #include "ui_sandboxwidget.h"
 
-#include "qjoystick.h"
+#include <Joystick/JoystickDevice>
 
 #include <QWidget>
 #include <QProgressBar>
@@ -33,7 +33,7 @@
  */
 SandBoxWidget::SandBoxWidget(QWidget *parent) : QWidget(parent)
   , ui(new Ui::SandBoxWidget)
-  , m_joystickDevice(new QJoystick(this))
+  , m_joystickDevice(new JoystickDevice(this))
   , m_timer(new QTimer())
 {
     ui->setupUi(this);

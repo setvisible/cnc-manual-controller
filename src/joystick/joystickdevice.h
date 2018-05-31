@@ -14,8 +14,8 @@
  * License along with this program; If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef JOYSTICK_QJOYSTICK_H
-#define JOYSTICK_QJOYSTICK_H
+#ifndef JOYSTICK_JOYSTICK_DEVICE_H
+#define JOYSTICK_JOYSTICK_DEVICE_H
 
 #include <QtCore/QObject>
 #include <QtCore/QString>
@@ -24,12 +24,12 @@
 struct _SDL_Joystick;
 typedef struct _SDL_Joystick SDL_Joystick;
 
-class QJoystick : public QObject
+class JoystickDevice : public QObject
 {
     Q_OBJECT
 public:
-    explicit QJoystick(QObject *parent = Q_NULLPTR);
-    ~QJoystick();
+    explicit JoystickDevice(QObject *parent = Q_NULLPTR);
+    ~JoystickDevice();
 
     int availableJoystickCount() const;
 
@@ -52,4 +52,4 @@ private:
 
 };
 
-#endif // JOYSTICK_QJOYSTICK_H
+#endif // JOYSTICK_JOYSTICK_DEVICE_H
