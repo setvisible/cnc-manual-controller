@@ -38,7 +38,7 @@ SandBoxWidget::SandBoxWidget(QWidget *parent) : QWidget(parent)
 {
     ui->setupUi(this);
 
-    connect(m_timer, SIGNAL(timeout()), this, SLOT(updateData()));
+    connect(m_timer, SIGNAL(timeout()), this, SLOT(updateState()));
     connect(ui->deviceComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(updateSelection(int)));
     connect(ui->samplingGroupBox, SIGNAL(toggled(bool)), this, SLOT(setSamplingActive(bool)));
 
@@ -104,6 +104,7 @@ void SandBoxWidget::reset()
         /* Populate data structure for all joysticks */
         for (int i = 0; i < m_joystickCount; ++i) {
             m_joystickDevice->setJoystickIndex(i);
+            m_joystickDevice->open();
 
             /* Populate ComboBox */
             ui->deviceComboBox->addItem(m_joystickDevice->joystickName(i));
@@ -127,6 +128,7 @@ void SandBoxWidget::reset()
                                .arg(m_joysticks.at(0)->number_btn));
 
         m_joystickDevice->setJoystickIndex(ui->deviceComboBox->currentIndex());
+        m_joystickDevice->open();
     }
 
     /*
@@ -166,13 +168,13 @@ void SandBoxWidget::updateSelection(int index)
         m_checkboxes.at(j)->deleteLater();
     }
     m_checkboxes.clear();
-
     m_currentJoystickIndex = index;
-
     ui->infoLabel->setText(QString("%1 axes - %2 buttons")
                            .arg(m_joysticks.at(index)->number_axes)
                            .arg(m_joysticks.at(index)->number_btn));
+
     m_joystickDevice->setJoystickIndex(ui->deviceComboBox->currentIndex());
+    m_joystickDevice->open();
 
     for (int i = 0; i < m_joysticks.at(index)->number_axes; ++i){
 
@@ -209,7 +211,7 @@ void SandBoxWidget::updateSelection(int index)
     }
 }
 
-void SandBoxWidget::updateData()
+void SandBoxWidget::updateState()
 {
     m_joystickDevice->storeCurrentState();
     pollJoystick();
@@ -217,11 +219,9 @@ void SandBoxWidget::updateData()
         m_progressBars[i]->setValue(m_joysticks.at(m_currentJoystickIndex)->axis[i]);
         m_labels[i]->setText(QString("%1").arg(m_joysticks.at(m_currentJoystickIndex)->axis[i]));
     }
-
     for (int i = 0; i < m_joysticks.at(m_currentJoystickIndex)->number_btn; ++i) {
         m_checkboxes[i]->setChecked(m_joysticks.at(m_currentJoystickIndex)->button[i]);
     }
-    //this->update();
 }
 
 /******************************************************************************

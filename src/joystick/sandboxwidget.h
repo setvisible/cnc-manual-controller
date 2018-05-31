@@ -46,7 +46,7 @@ public Q_SLOTS:
 
 private Q_SLOTS:
     void updateSelection(int index);
-    void updateData();
+    void updateState();
 
 private:
     Ui::SandBoxWidget *ui;
@@ -75,6 +75,7 @@ private:
 
     void reset();
     void pollJoystick();
+
 };
 
 #endif // JOYSTICK_SAND_BOX_WIDGET_H

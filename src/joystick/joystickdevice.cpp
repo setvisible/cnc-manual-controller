@@ -33,6 +33,7 @@
  */
 JoystickDevice::JoystickDevice(QObject *parent) : QObject(parent)
   , m_joystick(Q_NULLPTR)
+  , m_deviceIndex(-1)
 {
     /*
      * Sure, we're only using the Joystick,
@@ -69,19 +70,31 @@ int JoystickDevice::availableJoystickCount() const
  */
 int JoystickDevice::joystickIndex() const
 {
-    Q_ASSERT(m_joystick);
-    return SDL_JoystickIndex(m_joystick);
+    return m_deviceIndex;
+//    Q_ASSERT(m_joystick);
+//    return SDL_JoystickIndex(m_joystick);
 }
 
 void JoystickDevice::setJoystickIndex(int deviceIndex)
 {
-    Q_ASSERT(deviceIndex < availableJoystickCount());
-    Q_ASSERT(deviceIndex >= 0);
-    // /* Otherwise, segfault */
-    // if (m_joystick && SDL_WasInit(SDL_INIT_JOYSTICK)) {
-    //     SDL_JoystickClose(m_joystick);
-    // }
-    m_joystick = SDL_JoystickOpen(deviceIndex);
+    m_deviceIndex = deviceIndex;
+}
+
+/******************************************************************************
+ ******************************************************************************/
+void JoystickDevice::open()
+{
+    Q_ASSERT(m_deviceIndex < availableJoystickCount());
+    Q_ASSERT(m_deviceIndex >= 0);
+    // close(); /* Otherwise, segfault */
+    m_joystick = SDL_JoystickOpen(m_deviceIndex);
+}
+
+void JoystickDevice::close()
+{
+    if (m_joystick && SDL_WasInit(SDL_INIT_JOYSTICK)) {
+        SDL_JoystickClose(m_joystick);
+    }
 }
 
 /******************************************************************************

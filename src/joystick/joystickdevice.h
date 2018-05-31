@@ -36,6 +36,9 @@ public:
     int joystickIndex() const;
     void setJoystickIndex(int deviceIndex);
 
+    void open();
+    void close();
+
     QString joystickName(int deviceIndex) const;
     int joystickNumAxes(int deviceIndex) const;
     int joystickNumButtons(int deviceIndex) const;
@@ -47,6 +50,7 @@ public:
 
 private:
     SDL_Joystick *m_joystick;
+    int m_deviceIndex;
     QList<int> m_axis;
     QList<bool> m_buttons;
 
