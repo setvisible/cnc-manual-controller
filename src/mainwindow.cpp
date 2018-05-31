@@ -65,6 +65,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     m_engine->setGuiInput(ui->controlWidget);
     m_engine->reset();
 
+    ui->gamepadWidget->setDeviceIndex(0);
+    ui->gamepadWidget->setActive(true);
 
     createActions();
     createMenus();
