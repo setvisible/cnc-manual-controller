@@ -212,6 +212,9 @@ void SandBoxWidget::updateSelection(int index)
 
 void SandBoxWidget::updateState()
 {
+    if (m_currentJoystickIndex < 0 || m_currentJoystickIndex > m_joysticks.count()) {
+        return;
+    }
     m_joystickDevice->storeCurrentState();
     pollJoystick();
     for (int i = 0; i < m_joysticks.at(m_currentJoystickIndex)->number_axes; ++i) {
