@@ -54,6 +54,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     // Initialize widgets
     ui->speedSpinBox->setMaximum(1000);
     ui->speedSpinBox->setMinimum(1);
+    ui->speedSpinBox->setSingleStep(10);
 
     // Connect widgets to engine
     connect(ui->connectButton, SIGNAL(toggled(bool)), m_engine, SLOT(setConnected(bool)));

@@ -32,6 +32,8 @@ PreferencesDialog::PreferencesDialog(Engine *engine, QWidget *parent) : QDialog(
 
     Q_ASSERT(m_preferences);
     ui->sandBoxWidget->setJoystickId(m_preferences->currentJoystickId());
+    ui->sandBoxWidget->setSamplingActive(true);
+
 }
 
 PreferencesDialog::~PreferencesDialog()
