@@ -65,6 +65,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     m_engine->setGuiInput(ui->controlWidget);
     m_engine->reset();
 
+    // Connect other widgets
+    connect(ui->speedSpinBox, SIGNAL(valueChanged(int)), this, SLOT(onSpeedSpinBoxValueChanged(int)));
+
     ui->gamepadWidget->setDeviceIndex(0);
     ui->gamepadWidget->setActive(true);
 
@@ -406,4 +409,10 @@ void MainWindow::updateConnectButtonAndStatus(bool connected)
     const QString button = connected ? tr("Disconnect") : tr("Connect");
     ui->connectStatus->setText(status);
     ui->connectButton->setText(button);
+}
+
+void MainWindow::onSpeedSpinBoxValueChanged(int value)
+{
+    QString styleSheet = value > 100 ? QLatin1String("color: rgb(255, 0, 0);") : QString();
+    ui->speedSpinBox->setStyleSheet(styleSheet);
 }

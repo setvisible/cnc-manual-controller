@@ -60,6 +60,7 @@ private Q_SLOTS:
     void setClean();
 
     void updateConnectButtonAndStatus(bool connected);
+    void onSpeedSpinBoxValueChanged(int value);
 
 private:
     Ui::MainWindow *ui;
