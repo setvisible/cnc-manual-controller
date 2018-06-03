@@ -184,7 +184,7 @@ void SandBoxWidget::updateSelection(int index)
         label->setFont(font);
         label->setFixedWidth(50);
 
-        QProgressBar *progressbar = new QProgressBar(this);
+        QProgressBar *progressbar = new QProgressBar();
         progressbar->setOrientation(Qt::Vertical);
         progressbar->setTextVisible(false);
         progressbar->setMinimum(-32768);
@@ -195,7 +195,7 @@ void SandBoxWidget::updateSelection(int index)
         m_progressBars.append(progressbar);
         m_labels.append(label);
 
-        QVBoxLayout *layout = new QVBoxLayout(this);
+        QVBoxLayout *layout = new QVBoxLayout();
         layout->addWidget(m_progressBars.at(i));
         layout->addWidget(m_labels.at(i));
 
@@ -203,7 +203,7 @@ void SandBoxWidget::updateSelection(int index)
     }
 
     for (int j = 0; j < m_joysticks.at(m_currentJoystickIndex)->number_btn; ++j) {
-        QCheckBox *checkbox = new QCheckBox(this);
+        QCheckBox *checkbox = new QCheckBox();
         checkbox->setChecked(false);
         m_checkboxes.append(checkbox);
         ui->buttonsLayout->addWidget(m_checkboxes[j]);
