@@ -232,7 +232,7 @@ void Engine::commandCallback() noexcept
 
 void Engine::infoString(QString message)
 {
-    qDebug() << Q_FUNC_INFO << message;
+    //qDebug() << Q_FUNC_INFO << message;
 }
 
 void Engine::errorString(QString err)
@@ -242,11 +242,20 @@ void Engine::errorString(QString err)
 
 /******************************************************************************
  ******************************************************************************/
-void Engine::setGuiInput(ControlWidget *controlWidget)
+void Engine::setControlInput(ControlWidget *controlWidget)
 {
     m_controlWidget = controlWidget;
 }
 
+/******************************************************************************
+ ******************************************************************************/
+void Engine::readInput()
+{
+        readControlInput();
+}
+
+/******************************************************************************
+ ******************************************************************************/
 static inline CommandStep toStep(const int value)
 {
     if (value > 0) {
@@ -258,7 +267,7 @@ static inline CommandStep toStep(const int value)
     }
 }
 
-void Engine::readInput()
+void Engine::readControlInput()
 {
     CommandStep commandX = CommandStep::None;
     CommandStep commandY = CommandStep::None;

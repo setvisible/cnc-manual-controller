@@ -39,7 +39,7 @@ public:
     int ticksPerSecond() const;
     bool isConnected() const;
 
-    void setGuiInput(ControlWidget *controlWidget);
+    void setControlInput(ControlWidget *controlWidget);
 
     Preferences *preferences() const;
 
@@ -74,6 +74,8 @@ private:
 
     ControlWidget *m_controlWidget;
     Preferences *m_preferences;
+
+    void readControlInput();
 };
 
 
