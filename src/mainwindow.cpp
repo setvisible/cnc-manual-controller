@@ -64,6 +64,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     connect(m_engine, SIGNAL(ticksPerSecondChanged(int)), ui->speedSpinBox, SLOT(setValue(int)));
 
     m_engine->setControlInput(ui->controlWidget);
+    m_engine->setGamepadInput(ui->gamepadWidget);
     m_engine->reset();
 
     // Connect other widgets

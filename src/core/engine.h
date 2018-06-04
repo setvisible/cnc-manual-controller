@@ -25,6 +25,7 @@ class CircularBuffer;
 class IMachine;
 class Scheduler;
 class ControlWidget;
+class GamepadWidget;
 class Preferences;
 
 class Engine : public QObject
@@ -40,8 +41,10 @@ public:
     bool isConnected() const;
 
     void setControlInput(ControlWidget *controlWidget);
+    void setGamepadInput(GamepadWidget *gamepadWidget);
 
     Preferences *preferences() const;
+
 
 Q_SIGNALS:
     void connectedChanged(bool status);
@@ -73,9 +76,11 @@ private:
     int m_interval;
 
     ControlWidget *m_controlWidget;
+    GamepadWidget *m_gamepadWidget;
     Preferences *m_preferences;
 
     void readControlInput();
+    void readGamepadInput();
 };
 
 

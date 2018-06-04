@@ -21,6 +21,7 @@
 
 #include <Core/Preferences>
 #include <GUI/ControlWidget>
+#include <GUI/GamepadWidget>
 #include <Velleman/VM110NMachine>
 
 #include <QtCore/QThread>
@@ -43,6 +44,7 @@ Engine::Engine(QObject *parent) : QObject(parent)
   , m_isConnected(false)
   , m_interval(10)
   , m_controlWidget(Q_NULLPTR)
+  , m_gamepadWidget(Q_NULLPTR)
   , m_preferences(new Preferences(this))
 {
     reset();
@@ -247,11 +249,21 @@ void Engine::setControlInput(ControlWidget *controlWidget)
     m_controlWidget = controlWidget;
 }
 
+void Engine::setGamepadInput(GamepadWidget *gamepadWidget)
+{
+    m_gamepadWidget = gamepadWidget;
+}
+
 /******************************************************************************
  ******************************************************************************/
 void Engine::readInput()
 {
+    const bool hasGamepad = m_gamepadWidget->deviceIndex() >= 0;
+    if (hasGamepad) {
+        readGamepadInput();
+    } else {
         readControlInput();
+    }
 }
 
 /******************************************************************************
@@ -282,6 +294,40 @@ void Engine::readControlInput()
         buffer.frames[i].actuatorX = commandX;
         buffer.frames[i].actuatorY = commandY;
         buffer.frames[i].actuatorZ = commandZ;
+    }
+    m_circularBuffer->push(buffer);
+    qDebug() << Q_FUNC_INFO << buffer;
+}
+
+/******************************************************************************
+ ******************************************************************************/
+static inline CommandStep toStep(const int step, const int iterator, CommandStep command)
+{
+    const int absStep = qAbs(step);
+    Q_ASSERT(absStep <= 5);
+    Q_ASSERT(iterator >= 0);
+    Q_ASSERT(iterator <= 3);
+    if ((iterator * 5) <= (step * 3)) {
+        return command;
+    } else {
+        return CommandStep::None;
+    }
+}
+
+void Engine::readGamepadInput()
+{
+    Q_ASSERT(m_gamepadWidget);
+    const int stepX = m_gamepadWidget->valueAxisX();
+    const int stepY = m_gamepadWidget->valueAxisY();
+    const int stepZ = m_gamepadWidget->valueAxisZ();
+    const CommandStep commandX = toStep(stepX);
+    const CommandStep commandY = toStep(stepY);
+    const CommandStep commandZ = toStep(stepZ);
+    CommandBuffer buffer;
+    for (int i = 0; i < 4; ++i) {
+        buffer.frames[i].actuatorX = toStep(stepX, i, commandX);
+        buffer.frames[i].actuatorY = toStep(stepY, i, commandY);
+        buffer.frames[i].actuatorZ = toStep(stepZ, i, commandZ);
     }
     m_circularBuffer->push(buffer);
     qDebug() << Q_FUNC_INFO << buffer;

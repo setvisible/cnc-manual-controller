@@ -121,3 +121,21 @@ void GamepadWidget::updateState()
     ui->gamepadYWidget->setValue(yValue);
     ui->gamepadZWidget->setValue(zValue);
 }
+
+/******************************************************************************
+ ******************************************************************************/
+int GamepadWidget::valueAxisX() const
+{
+    return ui->gamepadXWidget->value();
+}
+
+int GamepadWidget::valueAxisY() const
+{
+    return ui->gamepadYWidget->value();
+}
+
+int GamepadWidget::valueAxisZ() const
+{
+    return ui->gamepadZWidget->value();
+}
+

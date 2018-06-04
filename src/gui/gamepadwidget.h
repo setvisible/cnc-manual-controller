@@ -36,6 +36,10 @@ public:
     explicit GamepadWidget(QWidget* parent = Q_NULLPTR);
     ~GamepadWidget();
 
+    int valueAxisX() const;
+    int valueAxisY() const;
+    int valueAxisZ() const;
+
 public Q_SLOTS:
     int deviceIndex() const;
     void setDeviceIndex(int deviceIndex);
