@@ -20,6 +20,7 @@
 #include <Joystick/JoystickDevice>
 #include <Widgets/GamepadAxisWidget>
 
+#include <QtCore/QtMath>
 #include <QtCore/QTimer>
 
 GamepadWidget::GamepadWidget(QWidget *parent) : QWidget(parent)
@@ -113,9 +114,9 @@ void GamepadWidget::updateState()
     const double y = (double) m_joystickDevice->axis().at(2);
     const double z = (double) m_joystickDevice->axis().at(1);
 
-    int xValue = qRound( 5.0 * x / 32768.0);
-    int yValue = qRound(-5.0 * y / 32768.0);
-    int zValue = qRound(-5.0 * z / 32768.0);
+    int xValue =  qCeil(5.0 * x / 32768.0);
+    int yValue = -qCeil(5.0 * y / 32768.0);
+    int zValue = -qCeil(5.0 * z / 32768.0);
 
     ui->gamepadXWidget->setValue(xValue);
     ui->gamepadYWidget->setValue(yValue);
