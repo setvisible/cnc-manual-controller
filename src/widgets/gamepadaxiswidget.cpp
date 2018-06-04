@@ -51,6 +51,7 @@ void GamepadAxisWidget::setValue(int value)
 {
     if (ui->slider->value() != value) {
         ui->slider->setValue(value);
+        ui->valueLabel->setText(QString("%0").arg(value));
         emit valueChanged(value);
     }
 }
