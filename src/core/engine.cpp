@@ -307,6 +307,13 @@ static inline CommandStep toStep(const int step, const int iterator, CommandStep
     Q_ASSERT(absStep <= 5);
     Q_ASSERT(iterator >= 0);
     Q_ASSERT(iterator <= 3);
+    if (absStep == 2 || absStep == 3) {
+        if (iterator == 1) {
+            return CommandStep::None;
+        } else if (iterator == 2) {
+            return command;
+        }
+    }
     if ((iterator * 5) <= (absStep * 3)) {
         return command;
     } else {
